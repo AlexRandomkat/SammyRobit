@@ -16,6 +16,10 @@ public class DriveMotors extends Subsystem {
 		rightDrivePWM.setSafetyEnabled(true);
 		rightDrivePWM.setExpiration(0.2);//see comment above
 	}
+	public void disableSafety(){
+		leftDrivePWM.setSafetyEnabled(false);
+		rightDrivePWM.setSafetyEnabled(false);
+	}
     public void updateDrive(double left,double right){
     	//left and right should be double values at/between -1 and 1.
     	

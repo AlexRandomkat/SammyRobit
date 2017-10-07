@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team6644.robot.commands.ExampleCommand;
 import org.usfirst.frc.team6644.robot.subsystems.ExampleSubsystem;
+
+import org.usfirst.frc.team6644.robot.commands.*;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -90,8 +92,12 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (autonomousCommand != null)
+		if (autonomousCommand != null){
 			autonomousCommand.cancel();
+		}
+		//add command to drive robot with joystick
+		DriveWithJoystick drive=new DriveWithJoystick();
+		Scheduler.getInstance().add(drive);
 	}
 
 	/**
