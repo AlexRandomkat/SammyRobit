@@ -12,7 +12,7 @@ public class DriveMotors extends Subsystem {
 	
 	public void enableSaftey(){
 		leftDrivePWM.setSafetyEnabled(true);
-		leftDrivePWM.setExpiration(0.2);//sets the PWM to expire in 0.2 seconds within the last call of .Feed()
+		leftDrivePWM.setExpiration(0.2);//sets the PWM to expire in 0.2 seconds after the last call of .Feed()
 		rightDrivePWM.setSafetyEnabled(true);
 		rightDrivePWM.setExpiration(0.2);//see comment above
 	}
