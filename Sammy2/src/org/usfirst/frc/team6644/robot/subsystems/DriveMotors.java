@@ -31,20 +31,6 @@ public class DriveMotors extends Subsystem {
     	leftDrivePWM.set(left);
     	rightDrivePWM.set(right);
     }
-    public void fuckTheDriveMotors(double left, double right){
-    	//I guess this could be a thing???
-    	if(left>=0){
-    		left=1;
-    	}else{
-    		left=-1;
-    	}
-    	if(right>=0){
-    		right=1;
-    	}else{
-    		right=-1;
-    	}
-    	updateDrive(left,right);
-    }
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
