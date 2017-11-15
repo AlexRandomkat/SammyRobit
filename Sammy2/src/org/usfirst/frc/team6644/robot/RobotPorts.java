@@ -2,10 +2,10 @@ package org.usfirst.frc.team6644.robot;
 
 public enum RobotPorts {
 	// Human Input
-	JOYSTICK(1),
+	JOYSTICK(0),
 
 	// Motor Control
-	LEFT_DRIVE_PWM(0), RIGHT_DRIVE_PWM(0);
+	LEFT_DRIVE_PWM(0), RIGHT_DRIVE_PWM(1);
 
 	// Sensors
 
