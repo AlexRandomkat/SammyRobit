@@ -105,7 +105,7 @@ public class Robot extends IterativeRobot {
 		}
 		// add command to drive robot with joystick
 		DriveWithJoystick drive = new DriveWithJoystick();
-		Scheduler.getInstance().add(drive); //<- try this to see if it works
+		Scheduler.getInstance().add(drive);
 	}
 
 	/**

@@ -29,9 +29,9 @@ public class DriveWithJoystick extends Command {
 		// negative as they joystick is pushed away from the user ... and for X to be
 		// positive as the joystick is pushed to the right."
 		// ^^^Check this assumption in the Driver Station before deploying code.
-		double forwardModifier = 1 - Math.abs(joystick.getX());
-		drivemotors.updateDrive(forwardModifier * joystick.getY() + joystick.getX(),
-				forwardModifier * joystick.getY() - joystick.getX()); // I'm pretty sure it's impossible for any of the
+		double forwardModifier = 1 - Math.abs(joystick.getY());
+		drivemotors.updateDrive(forwardModifier * joystick.getX() + -joystick.getY(),
+				forwardModifier * joystick.getX() - -joystick.getY()); // I'm pretty sure it's impossible for any of the
 																		// left or right PWM inputs to be out of the
 																		// range of [-1,1], double check that.
 	}

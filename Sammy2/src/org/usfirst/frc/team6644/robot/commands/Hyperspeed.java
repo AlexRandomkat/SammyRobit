@@ -25,8 +25,8 @@ public class Hyperspeed extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		double forwardModifier = 1 - Math.abs(joystick.getX());
-		double left = forwardModifier * joystick.getY() + joystick.getX();
-		double right = forwardModifier * joystick.getY() - joystick.getX();
+		double left = forwardModifier * joystick.getX() + -joystick.getY();
+		double right = forwardModifier * joystick.getX() - -joystick.getY();
 		// HYPERSPEEDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
 		if (left >= 0) {
 			if (right >= 0) {

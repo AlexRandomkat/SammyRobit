@@ -8,8 +8,8 @@ import org.usfirst.frc.team6644.robot.RobotPorts;
  *
  */
 public class DriveMotors extends Subsystem {
-	Spark leftDrivePWM = new Spark(RobotPorts.LEFT_DRIVE_PWM.get());
-	Spark rightDrivePWM = new Spark(RobotPorts.RIGHT_DRIVE_PWM.get());
+	static Spark leftDrivePWM = new Spark(RobotPorts.LEFT_DRIVE_PWM.get());
+	static Spark rightDrivePWM = new Spark(RobotPorts.RIGHT_DRIVE_PWM.get());
 	double motorSafteyExpireTime = 0.2;// sets the PWM to expire in 0.2 seconds after the last call of .Feed()
 
 	public void enableSaftey() {
