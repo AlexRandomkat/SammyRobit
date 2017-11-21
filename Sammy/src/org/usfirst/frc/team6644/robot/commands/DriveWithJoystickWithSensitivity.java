@@ -10,11 +10,11 @@ import edu.wpi.first.wpilibj.Joystick;
 /**
  *
  */
-public class DriveWithJoystick extends Command {
+public class DriveWithJoystickWithSensitivity extends Command {
 	private static DriveMotors drivemotors = new DriveMotors();
 	private static Joystick joystick = new Joystick(RobotPorts.JOYSTICK.get());
 
-	public DriveWithJoystick() {
+	public DriveWithJoystickWithSensitivity() {
 		requires(drivemotors);
 	}
 
@@ -29,11 +29,17 @@ public class DriveWithJoystick extends Command {
 		// negative as they joystick is pushed away from the user ... and for X to be
 		// positive as the joystick is pushed to the right."
 		// ^^^Check this assumption in the Driver Station before deploying code.
-		double forwardModifier = 1 - Math.abs(joystick.getY());
-		drivemotors.updateDrive(forwardModifier * joystick.getX() + -joystick.getY(),
-				forwardModifier * joystick.getX() - -joystick.getY()); // I'm pretty sure it's impossible for any of the
-																		// left or right PWM inputs to be out of the
-																		// range of [-1,1], double check that.
+		double forwardModifier = 1-Math.abs(joystick.getY());
+		double left=forwardModifier*joystick.getX()-joystick.getY();
+		double right=forwardModifier*joystick.getX()+joystick.getY();
+		double sensitivity=(-joystick.getRawAxis(3)+1)/2;
+		left=left*sensitivity;
+		right=right*sensitivity;
+		/* get the stuff below working properly instead of just multiplying...
+		left=Math.log10(left)/Math.log10(sensitivity);
+		right=Math.log10(right)/Math.log10(sensitivity);
+		*/
+		drivemotors.updateDrive(left,right);//placeholder
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -43,7 +49,7 @@ public class DriveWithJoystick extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		drivemotors.updateDrive(0, 0);
+		drivemotors.updateDrive(0,0);
 		drivemotors.disableSafety();
 	}
 

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team6644.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -26,6 +27,9 @@ public class Robot extends IterativeRobot {
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 	public static DriveMotors drivemotors;
+	//test
+	public static Joystick joystick = new Joystick(RobotPorts.JOYSTICK.get());
+	//end test
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -35,12 +39,19 @@ public class Robot extends IterativeRobot {
 	 * for any initialization code.
 	 */
 	@Override
-	public void robotInit() {
+	public void robotInit(){
 		oi = new OI();
 		drivemotors=new DriveMotors();
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
+		//test stuff
+		System.out.println("X axis channel: "+joystick.getAxisChannel(Joystick.AxisType.kX));
+		System.out.println("Y axis channel: "+joystick.getAxisChannel(Joystick.AxisType.kY));
+		System.out.println("Z axis channel: "+joystick.getAxisChannel(Joystick.AxisType.kZ));
+		System.out.println("Twist axis channel: "+joystick.getAxisChannel(Joystick.AxisType.kTwist));
+		System.out.println("Throttle axis channel: "+joystick.getAxisChannel(Joystick.AxisType.kThrottle));
+		//end test stuff
 	}
 
 	/**
@@ -104,7 +115,8 @@ public class Robot extends IterativeRobot {
 			autonomousCommand.cancel();
 		}
 		// add command to drive robot with joystick
-		DriveWithJoystick drive = new DriveWithJoystick();
+		//DriveWithJoystick drive = new DriveWithJoystick();
+		DriveWithJoystickWithSensitivity drive = new DriveWithJoystickWithSensitivity();
 		Scheduler.getInstance().add(drive);
 	}
 
@@ -122,5 +134,13 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
+		//test stuff
+		try {
+			System.out.println(joystick.getRawAxis(3));
+			Thread.sleep(50);
+		} catch(InterruptedException e) {
+			System.out.println(e);
+		}
+		//end test stuff
 	}
 }

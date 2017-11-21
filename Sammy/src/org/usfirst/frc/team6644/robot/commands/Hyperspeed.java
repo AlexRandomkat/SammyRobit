@@ -10,8 +10,8 @@ import org.usfirst.frc.team6644.robot.RobotPorts;
  *
  */
 public class Hyperspeed extends Command {
-	DriveMotors drivemotors = new DriveMotors();
-	Joystick joystick = new Joystick(RobotPorts.JOYSTICK.get());
+	private static DriveMotors drivemotors = new DriveMotors();
+	private static Joystick joystick = new Joystick(RobotPorts.JOYSTICK.get());
 
 	public Hyperspeed() {
 		requires(drivemotors);
