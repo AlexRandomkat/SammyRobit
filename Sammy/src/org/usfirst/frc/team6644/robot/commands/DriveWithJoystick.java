@@ -25,10 +25,6 @@ public class DriveWithJoystick extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		// Assumes "the typical convention for joysticks and gamepads is for Y to be
-		// negative as they joystick is pushed away from the user ... and for X to be
-		// positive as the joystick is pushed to the right."
-		// ^^^Check this assumption in the Driver Station before deploying code.
 		double forwardModifier = 1 - Math.abs(joystick.getY());
 		drivemotors.updateDrive(forwardModifier * joystick.getX() + -joystick.getY(),
 				forwardModifier * joystick.getX() - -joystick.getY()); // I'm pretty sure it's impossible for any of the
