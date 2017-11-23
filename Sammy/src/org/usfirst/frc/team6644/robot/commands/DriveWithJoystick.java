@@ -11,11 +11,12 @@ import edu.wpi.first.wpilibj.Joystick;
  *
  */
 public class DriveWithJoystick extends Command {
-	protected static DriveMotors drivemotors = new DriveMotors();
-	protected static Joystick joystick = new Joystick(RobotPorts.JOYSTICK.get());
-	protected static double left=0;
-	protected static double right=0;
-	protected static boolean isRunning=false;
+	protected DriveMotors drivemotors = new DriveMotors();
+	protected Joystick joystick = new Joystick(RobotPorts.JOYSTICK.get());
+	protected double left=0;
+	protected double right=0;
+	protected double forwardModifier;
+	protected boolean isRunning=false;
 
 	public DriveWithJoystick() {
 		requires(drivemotors);
@@ -28,12 +29,17 @@ public class DriveWithJoystick extends Command {
 	}
 	
 	// Called repeatedly when this Command is scheduled to run
-	protected void execute() {
-		double forwardModifier = 1-Math.abs(joystick.getY());
+	protected void calculateMotorOutputs() {
+		forwardModifier = 1-Math.abs(joystick.getY());
 		left=forwardModifier*joystick.getX()-joystick.getY();
 		right=forwardModifier*joystick.getX()+joystick.getY();
+	}
+	protected void execute() {
+		calculateMotorOutputs();
 		drivemotors.updateDrive(left,right);
 	}
+	
+	//stuff for SmartDashboard
 	public boolean isRunning() {
 		return isRunning;
 	}

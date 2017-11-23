@@ -7,10 +7,11 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team6644.robot.commands.ExampleCommand;
+
 import org.usfirst.frc.team6644.robot.subsystems.ExampleSubsystem;
 
 import org.usfirst.frc.team6644.robot.subsystems.*;
+import org.usfirst.frc.team6644.robot.commandGroups.*;
 import org.usfirst.frc.team6644.robot.commands.*;
 
 
@@ -82,19 +83,26 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
+		//might use the commented out stuff below later
+		/*autonomousCommand = chooser.getSelected();
 
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		 * switch(autoSelected) { case "My Auto": autonomousCommand = new
-		 * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
-		 * ExampleCommand(); break; }
-		 */
+		 // String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
+		 // switch(autoSelected) { case "My Auto": autonomousCommand = new
+		 // MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
+		 // ExampleCommand(); break; }
+		 
 
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
-		}
+		}*/
+		
+		//clear everything that may be on the scheduler
+		Scheduler.getInstance().removeAll();
+		
+		//add commands to scheduler for autonomous mode
+		AutonomousCommandsA autonomousCommands=new AutonomousCommandsA();
+		Scheduler.getInstance().add(autonomousCommands);
 	}
 
 	/**
@@ -114,7 +122,10 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
-		// add command to drive robot with joystick
+		//clear everything that may be on the scheduler
+		Scheduler.getInstance().removeAll();
+		
+		// add command to drive robot with joystick and send stuff to SmartDashboard
 		//DriveWithJoystick drive = new DriveWithJoystick();
 		DriveWithJoystickWithSensitivity drive = new DriveWithJoystickWithSensitivity();
 		UpdateSmartDashboard outputs = new UpdateSmartDashboard();
