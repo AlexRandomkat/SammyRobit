@@ -65,11 +65,7 @@ public class Robot extends IterativeRobot {
 		new Thread(() -> {
 			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 			camera.setResolution(640, 480);
-<<<<<<< HEAD
-=======
 
->>>>>>> 9cfce5d1f94a19e71c9a71b104bf116a6f677e15
-			CvSink cvSink = CameraServer.getInstance().getVideo();
 			CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
 
 			Mat source = new Mat();
@@ -81,13 +77,8 @@ public class Robot extends IterativeRobot {
 				outputStream.putFrame(output);
 			}
 		}).start();
-<<<<<<< HEAD
-		//advanced camera stuff
-		//end camera stuff
-=======
 	//advanced camera stuff
 	 //end camera stuff
->>>>>>> 9cfce5d1f94a19e71c9a71b104bf116a6f677e15
 	}
 
 	/**
@@ -167,7 +158,6 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().add(drive);
 		Scheduler.getInstance().add(outputs);
 	}
-
 	/**
 	 * This function is called periodically during operator control
 	 */
