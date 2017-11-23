@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.command.Command;
  *incomplete
  */
 public class AutonomousMoveStraight extends Command {
-	private static DriveMotors drivemotors = new DriveMotors();
-	private static double motorSpeed;
+	private DriveMotors drivemotors = new DriveMotors();
+	private double motorSpeed;
     public AutonomousMoveStraight(double distance,double time) {
         // Use requires() here to declare subsystem dependencies
         requires(drivemotors);

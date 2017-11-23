@@ -5,10 +5,10 @@ import org.usfirst.frc.team6644.robot.subsystems.DriveMotors;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ *incomplete
  */
 public class AutonomousTurn extends Command {
-	private static DriveMotors drivemotors = new DriveMotors();
+	private DriveMotors drivemotors = new DriveMotors();
 	
     public AutonomousTurn(double degrees) {
         // Use requires() here to declare subsystem dependencies

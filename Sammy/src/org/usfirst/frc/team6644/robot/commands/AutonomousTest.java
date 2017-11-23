@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class AutonomousTest extends Command {
-	private static DriveMotors drivemotors = new DriveMotors();
+	private DriveMotors drivemotors = new DriveMotors();
 	private double leftMotor;
 	private double rightMotor;
 	private double timeInSeconds;
