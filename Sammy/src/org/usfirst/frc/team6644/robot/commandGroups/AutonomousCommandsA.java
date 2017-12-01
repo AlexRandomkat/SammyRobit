@@ -30,7 +30,10 @@ public class AutonomousCommandsA extends CommandGroup {
     		addSequential(new AutonomousTest(i,-i,2));
     	}
     	addSequential(new AutonomousTest(1,1,4));
-    	for(double i=1;i>=0.0;i-=0.1) {
+    	for(double i=0.9;i>=0.6;i-=0.1) {
+    		addSequential(new AutonomousTest(i,-i,0.2+(i*0.15)));
+    	}
+    	for(double i=0.5;i>=0.0;i-=0.1) {
     		addSequential(new AutonomousTest(i,-i,0.2));
     	}
     }

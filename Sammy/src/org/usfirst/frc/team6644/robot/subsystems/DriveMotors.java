@@ -5,12 +5,12 @@ import edu.wpi.first.wpilibj.Spark;
 import org.usfirst.frc.team6644.robot.RobotPorts;
 
 /**
- *
+ * 
  */
 public class DriveMotors extends Subsystem {
-	static Spark leftDrivePWM = new Spark(RobotPorts.LEFT_DRIVE_PWM.get());
-	static Spark rightDrivePWM = new Spark(RobotPorts.RIGHT_DRIVE_PWM.get());
-	double motorSafteyExpireTime = 0.2;// sets the PWM to expire in 0.2 seconds after the last call of .Feed()
+	private static Spark leftDrivePWM = new Spark(RobotPorts.LEFT_DRIVE_PWM.get());
+	private static Spark rightDrivePWM = new Spark(RobotPorts.RIGHT_DRIVE_PWM.get());
+	private double motorSafteyExpireTime = 0.5;// sets the PWM to expire in 0.2 seconds after the last call of .Feed()
 
 	public void enableSaftey() {
 		leftDrivePWM.setSafetyEnabled(true);
@@ -34,7 +34,13 @@ public class DriveMotors extends Subsystem {
 			rightDrivePWM.Feed();
 		}
 		leftDrivePWM.set(left);
-		rightDrivePWM.set(right);
+		rightDrivePWM.set(-right);//accounts for flipped orientation of motors
+	}
+	
+	public void stop() {
+		disableSafety();
+		leftDrivePWM.set(0);
+		rightDrivePWM.set(0);
 	}
 
 	public void initDefaultCommand() {

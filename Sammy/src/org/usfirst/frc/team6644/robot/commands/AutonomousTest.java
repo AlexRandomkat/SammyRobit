@@ -23,7 +23,6 @@ public class AutonomousTest extends Command {
     
     // Called just before this Command runs the first time
     protected void initialize() {
-    	drivemotors.enableSaftey();
     	setTimeout(timeInSeconds);
     }
 
@@ -40,8 +39,7 @@ public class AutonomousTest extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	drivemotors.updateDrive(0,0);
-    	drivemotors.disableSafety();
+    	drivemotors.stop();
     }
 
     // Called when another command which requires one or more of the same

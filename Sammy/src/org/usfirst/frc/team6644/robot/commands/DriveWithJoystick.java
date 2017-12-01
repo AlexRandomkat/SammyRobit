@@ -13,10 +13,10 @@ import edu.wpi.first.wpilibj.Joystick;
 public class DriveWithJoystick extends Command {
 	protected DriveMotors drivemotors = new DriveMotors();
 	protected Joystick joystick = new Joystick(RobotPorts.JOYSTICK.get());
-	protected double left=0;
-	protected double right=0;
+	protected double left = 0;
+	protected double right = 0;
 	protected double forwardModifier;
-	protected boolean isRunning=false;
+	protected boolean isRunning = false;
 
 	public DriveWithJoystick() {
 		requires(drivemotors);
@@ -25,29 +25,31 @@ public class DriveWithJoystick extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		drivemotors.enableSaftey();
-		isRunning=true;
+		isRunning = true;
 	}
-	
+
 	// Called repeatedly when this Command is scheduled to run
 	protected void calculateMotorOutputs() {
-		forwardModifier = 1-Math.abs(joystick.getY());
-		left=forwardModifier*joystick.getX()-joystick.getY();
-		right=forwardModifier*joystick.getX()+joystick.getY();
+		forwardModifier = 1 - Math.abs(joystick.getY());
+		left = forwardModifier * joystick.getX() - joystick.getY();
+		right = -forwardModifier * joystick.getX() - joystick.getY();
 	}
+
 	protected void execute() {
 		calculateMotorOutputs();
-		drivemotors.updateDrive(left,right);
+		drivemotors.updateDrive(left, right);
 	}
-	
-	//stuff for SmartDashboard
+
+	// stuff for SmartDashboard
 	public boolean isRunning() {
 		return isRunning;
 	}
+
 	public double[] getDriveOutputs() {
-		//returns an array [left,right]
-		double[] driveOutputs=new double[2];
-		driveOutputs[0]=left;
-		driveOutputs[1]=right;
+		// returns an array [left,right]
+		double[] driveOutputs = new double[2];
+		driveOutputs[0] = left;
+		driveOutputs[1] = right;
 		return driveOutputs;
 	}
 
@@ -58,8 +60,7 @@ public class DriveWithJoystick extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		drivemotors.updateDrive(0, 0);
-		drivemotors.disableSafety();
+		drivemotors.stop();
 	}
 
 	// Called when another command which requires one or more of the same

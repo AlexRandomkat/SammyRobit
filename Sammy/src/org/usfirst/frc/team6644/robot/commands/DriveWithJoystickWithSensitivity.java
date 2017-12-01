@@ -6,7 +6,7 @@ public class DriveWithJoystickWithSensitivity extends DriveWithJoystick {
 	public DriveWithJoystickWithSensitivity() {
 		super();
 	}
-	private static double sensitivity;
+	private double sensitivity;
 	// Called repeatedly when this Command is scheduled to run
 	protected void calculateMotorOutputs() {
 		super.calculateMotorOutputs();

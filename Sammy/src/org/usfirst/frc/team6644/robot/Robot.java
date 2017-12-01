@@ -1,6 +1,5 @@
 package org.usfirst.frc.team6644.robot;
 
-
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.CameraServer;
 import org.opencv.core.Mat;
@@ -21,7 +20,6 @@ import org.usfirst.frc.team6644.robot.subsystems.*;
 import org.usfirst.frc.team6644.robot.commandGroups.*;
 import org.usfirst.frc.team6644.robot.commands.*;
 
-
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -35,9 +33,9 @@ public class Robot extends IterativeRobot {
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 	public static DriveMotors drivemotors;
-	//test
+	// test
 	public static Joystick joystick = new Joystick(RobotPorts.JOYSTICK.get());
-	//end test
+	// end test
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -47,25 +45,25 @@ public class Robot extends IterativeRobot {
 	 * for any initialization code.
 	 */
 	@Override
-	public void robotInit(){
+	public void robotInit() {
 		oi = new OI();
-		drivemotors=new DriveMotors();
+		drivemotors = new DriveMotors();
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
-		//test stuff
-		System.out.println("X axis channel: "+joystick.getAxisChannel(Joystick.AxisType.kX));
-		System.out.println("Y axis channel: "+joystick.getAxisChannel(Joystick.AxisType.kY));
-		System.out.println("Z axis channel: "+joystick.getAxisChannel(Joystick.AxisType.kZ));
-		System.out.println("Twist axis channel: "+joystick.getAxisChannel(Joystick.AxisType.kTwist));
-		System.out.println("Throttle axis channel: "+joystick.getAxisChannel(Joystick.AxisType.kThrottle));
-		//end test stuff
-		//start camera stuff
-		//CameraServer.getInstance().startAutomaticCapture();//simple camera stuff
+		// test stuff
+		System.out.println("X axis channel: " + joystick.getAxisChannel(Joystick.AxisType.kX));
+		System.out.println("Y axis channel: " + joystick.getAxisChannel(Joystick.AxisType.kY));
+		System.out.println("Z axis channel: " + joystick.getAxisChannel(Joystick.AxisType.kZ));
+		System.out.println("Twist axis channel: " + joystick.getAxisChannel(Joystick.AxisType.kTwist));
+		System.out.println("Throttle axis channel: " + joystick.getAxisChannel(Joystick.AxisType.kThrottle));
+		// end test stuff
+		// start camera stuff
+		// CameraServer.getInstance().startAutomaticCapture();//simple camera stuff
 		new Thread(() -> {
 			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 			camera.setResolution(640, 480);
-			
+
 			CvSink cvSink = CameraServer.getInstance().getVideo();
 			CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
 
@@ -78,8 +76,8 @@ public class Robot extends IterativeRobot {
 				outputStream.putFrame(output);
 			}
 		}).start();
-	//advanced camera stuff
-	 //end camera stuff
+		// advanced camera stuff
+		// end camera stuff
 	}
 
 	/**
@@ -89,7 +87,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
+		// clear everything that may be on the scheduler
+		//Scheduler.getInstance().removeAll();
 	}
 
 	@Override
@@ -110,26 +109,26 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		//might use the commented out stuff below later
-		/*autonomousCommand = chooser.getSelected();
+		// might use the commented out stuff below later
+		/*
+		 * autonomousCommand = chooser.getSelected();
+		 * 
+		 * // String autoSelected = SmartDashboard.getString("Auto Selector",
+		 * "Default"); // switch(autoSelected) { case "My Auto": autonomousCommand = new
+		 * // MyAutoCommand(); break; case "Default Auto": default: autonomousCommand =
+		 * new // ExampleCommand(); break; }
+		 * 
+		 * 
+		 * // schedule the autonomous command (example) if (autonomousCommand != null) {
+		 * autonomousCommand.start(); }
+		 */
 
-		 // String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		 // switch(autoSelected) { case "My Auto": autonomousCommand = new
-		 // MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
-		 // ExampleCommand(); break; }
-		 
+		// add commands to scheduler for autonomous mode
 
-		// schedule the autonomous command (example)
-		if (autonomousCommand != null) {
-			autonomousCommand.start();
-		}*/
-		
-		//clear everything that may be on the scheduler
-		Scheduler.getInstance().removeAll();
-		
-		//add commands to scheduler for autonomous mode
-		AutonomousCommandsA autonomousCommands=new AutonomousCommandsA();
-		Scheduler.getInstance().add(autonomousCommands);
+		// AutonomousCommandsA autonomousCommands=new AutonomousCommandsA();
+		// Scheduler.getInstance().add(autonomousCommands);
+
+		Scheduler.getInstance().add(new AutonomousTurn(.65, -.65, 8));
 	}
 
 	/**
@@ -149,16 +148,16 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
-		//clear everything that may be on the scheduler
-		Scheduler.getInstance().removeAll();
 		
 		// add command to drive robot with joystick and send stuff to SmartDashboard
-		//DriveWithJoystick drive = new DriveWithJoystick();
+		// DriveWithJoystick drive = new DriveWithJoystick();
 		DriveWithJoystickWithSensitivity drive = new DriveWithJoystickWithSensitivity();
 		UpdateSmartDashboard outputs = new UpdateSmartDashboard();
 		Scheduler.getInstance().add(drive);
 		Scheduler.getInstance().add(outputs);
+		Scheduler.getInstance().add(new AccelerometerTest());
 	}
+
 	/**
 	 * This function is called periodically during operator control
 	 */
@@ -173,13 +172,13 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
-		//test stuff
+		// test stuff
 		try {
 			System.out.println(joystick.getRawAxis(3));
 			Thread.sleep(50);
-		} catch(InterruptedException e) {
+		} catch (InterruptedException e) {
 			System.out.println(e);
 		}
-		//end test stuff
+		// end test stuff
 	}
 }
