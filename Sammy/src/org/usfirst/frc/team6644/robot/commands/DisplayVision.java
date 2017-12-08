@@ -1,33 +1,32 @@
 package org.usfirst.frc.team6644.robot.commands;
 
-import org.usfirst.frc.team6644.robot.subsystems.SammyAccelerometer;
-
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team6644.robot.subsystems.*;
 
 /**
  *
  */
-public class AccelerometerTest extends Command {
-	SammyAccelerometer accel = new SammyAccelerometer();
-	private int count = 0;
+public class DisplayVision extends Command {
+	Vision eyes = new Vision();
 
-	public AccelerometerTest() {
+	public DisplayVision() {
 		// Use requires() here to declare subsystem dependencies
-		requires(accel);
+		requires(eyes);
+		eyes.init();
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		accel.calibrateTilt();
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		count++;
-		count %= 100;
-		if (count == 0) {
-			//System.out.println("X:" + accel.getAccelerationX() + " Y:" + accel.getAccelerationY());
-		}
+
+		// eyes.initDefaultCommand();
+
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

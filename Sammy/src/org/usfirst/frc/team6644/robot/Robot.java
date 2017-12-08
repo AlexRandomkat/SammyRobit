@@ -48,6 +48,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 		drivemotors = new DriveMotors();
+		new DisplayVision();
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
@@ -58,27 +59,7 @@ public class Robot extends IterativeRobot {
 		System.out.println("Twist axis channel: " + joystick.getAxisChannel(Joystick.AxisType.kTwist));
 		System.out.println("Throttle axis channel: " + joystick.getAxisChannel(Joystick.AxisType.kThrottle));
 		// end test stuff
-		// start camera stuff
-		// CameraServer.getInstance().startAutomaticCapture();//simple camera stuff
-		new Thread(() -> {
-			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-			camera.setResolution(640, 480);
-
-			CvSink cvSink = CameraServer.getInstance().getVideo();
-			CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
-
-			Mat source = new Mat();
-			Mat output = new Mat();
-
-			while (!Thread.interrupted()) {
-				cvSink.grabFrame(source);
-				Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-				outputStream.putFrame(output);
 			}
-		}).start();
-		// advanced camera stuff
-		// end camera stuff
-	}
 
 	/**
 	 * This function is called once each time the robot enters Disabled mode. You
