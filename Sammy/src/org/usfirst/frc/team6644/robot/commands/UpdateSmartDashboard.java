@@ -22,8 +22,10 @@ public class UpdateSmartDashboard extends Command {
 		if (driveCommand.isRunning()) {
 			// updates SmartDashboard with the program's motor outputs
 			double[] prgmMotorOutputs = driveCommand.getDriveOutputs();
-			SmartDashboard.putNumber("Left motor:", prgmMotorOutputs[0]);
-			SmartDashboard.putNumber("Right motor:", prgmMotorOutputs[1]);
+			String leftMotor=String.format("%.3f",prgmMotorOutputs[0]);
+			String rightMotor=String.format("%.3f",prgmMotorOutputs[1]);
+			SmartDashboard.putString("Left motor: ",leftMotor);
+			SmartDashboard.putString("Right motor: ",rightMotor);
 		}
 	}
 
