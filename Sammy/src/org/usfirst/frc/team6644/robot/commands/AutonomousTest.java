@@ -28,7 +28,7 @@ public class AutonomousTest extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	drivemotors.updateDrive(leftMotor,rightMotor);
+    	drivemotors.tankDrive(leftMotor,rightMotor);
     }
 
     // Make this return true when this Command no longer needs to run execute()

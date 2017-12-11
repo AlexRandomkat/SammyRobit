@@ -3,18 +3,21 @@ package org.usfirst.frc.team6644.robot.commands;
 import org.usfirst.frc.team6644.robot.subsystems.DriveMotors;
 
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team6644.robot.Robot;
 
 /**
  * incomplete
  */
 public class AutonomousMoveStraight extends Command {
-	private DriveMotors drivemotors = new DriveMotors();
+
 	private double speed = 0;
 	private double time = 0;
+	private double kP = 0.1;
 
 	public AutonomousMoveStraight(double time, double speed) {
 		// Use requires() here to declare subsystem dependencies
-		requires(drivemotors);
+		requires(Robot.drivemotors);
+		Robot.drivemotors.disableSafety();// TODO: create method to check saftey status
 		this.speed = speed;
 		this.time = time;
 	}
@@ -26,7 +29,7 @@ public class AutonomousMoveStraight extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		drivemotors.updateDrive(speed, speed);
+		Robot.drivemotors.arcadeDrive(speed, -Robot.drivemotors.getDegrees()*kP);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -36,7 +39,7 @@ public class AutonomousMoveStraight extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		drivemotors.stop();
+		Robot.drivemotors.stop();
 	}
 
 	// Called when another command which requires one or more of the same

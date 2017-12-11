@@ -1,12 +1,6 @@
 package org.usfirst.frc.team6644.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.CameraServer;
-import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
-import edu.wpi.cscore.CvSink;
-import edu.wpi.cscore.CvSource;
-import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -46,20 +40,15 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		oi = new OI();
+		// ROBOT MUST BE STILL WHEN TURNED ON
 		drivemotors = new DriveMotors();
+		oi = new OI();
+
 		new DisplayVision();
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
-		// test stuff
-		System.out.println("X axis channel: " + joystick.getAxisChannel(Joystick.AxisType.kX));
-		System.out.println("Y axis channel: " + joystick.getAxisChannel(Joystick.AxisType.kY));
-		System.out.println("Z axis channel: " + joystick.getAxisChannel(Joystick.AxisType.kZ));
-		System.out.println("Twist axis channel: " + joystick.getAxisChannel(Joystick.AxisType.kTwist));
-		System.out.println("Throttle axis channel: " + joystick.getAxisChannel(Joystick.AxisType.kThrottle));
-		// end test stuff
-			}
+	}
 
 	/**
 	 * This function is called once each time the robot enters Disabled mode. You
@@ -69,7 +58,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledInit() {
 		// clear everything that may be on the scheduler
-		//Scheduler.getInstance().removeAll();
+		Scheduler.getInstance().removeAll();
 	}
 
 	@Override
@@ -109,7 +98,8 @@ public class Robot extends IterativeRobot {
 		// AutonomousCommandsA autonomousCommands=new AutonomousCommandsA();
 		// Scheduler.getInstance().add(autonomousCommands);
 
-		Scheduler.getInstance().add(new AutonomousTurn(.65, -.65, 8));
+		// Scheduler.getInstance().add(new AutonomousMoveStraight(1, 0.5)); TODO: Find
+		// how arcade drive works
 	}
 
 	/**
@@ -129,7 +119,7 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
-		
+
 		// add command to drive robot with joystick and send stuff to SmartDashboard
 		// DriveWithJoystick drive = new DriveWithJoystick();
 		DriveWithJoystickWithSensitivity drive = new DriveWithJoystickWithSensitivity();

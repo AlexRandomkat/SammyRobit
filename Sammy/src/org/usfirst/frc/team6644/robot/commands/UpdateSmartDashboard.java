@@ -3,6 +3,7 @@ package org.usfirst.frc.team6644.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team6644.robot.Robot;
 /**
  *
  */
@@ -27,6 +28,8 @@ public class UpdateSmartDashboard extends Command {
 			SmartDashboard.putString("Left motor: ",leftMotor);
 			SmartDashboard.putString("Right motor: ",rightMotor);
 		}
+		SmartDashboard.putNumber("Total Radians: ", Robot.drivemotors.getRadiansTotal());
+		SmartDashboard.putNumber("Current Radians: ", Robot.drivemotors.getRadians());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

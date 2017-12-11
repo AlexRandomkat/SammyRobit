@@ -3,6 +3,7 @@ package org.usfirst.frc.team6644.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc.team6644.robot.subsystems.DriveMotors;
+import org.usfirst.frc.team6644.robot.Robot;
 import org.usfirst.frc.team6644.robot.RobotPorts;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -11,7 +12,6 @@ import edu.wpi.first.wpilibj.Joystick;
  *
  */
 public class DriveWithJoystick extends Command {
-	protected DriveMotors drivemotors = new DriveMotors();
 	protected Joystick joystick = new Joystick(RobotPorts.JOYSTICK.get());
 	protected double left = 0;
 	protected double right = 0;
@@ -19,12 +19,14 @@ public class DriveWithJoystick extends Command {
 	protected boolean isRunning = false;
 
 	public DriveWithJoystick() {
-		requires(drivemotors);
+		// System.out.println(Robot);
+		// System.out.println(Robot.drivemotors); TODO: Find why called repeatedly
+		requires(Robot.drivemotors);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		drivemotors.enableSaftey();
+		Robot.drivemotors.enableSaftey();
 		isRunning = true;
 	}
 
@@ -37,7 +39,7 @@ public class DriveWithJoystick extends Command {
 
 	protected void execute() {
 		calculateMotorOutputs();
-		drivemotors.updateDrive(left, right);
+		Robot.drivemotors.tankDrive(left, right);
 	}
 
 	// stuff for SmartDashboard
@@ -60,7 +62,7 @@ public class DriveWithJoystick extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		drivemotors.stop();
+		Robot.drivemotors.stop();
 	}
 
 	// Called when another command which requires one or more of the same
