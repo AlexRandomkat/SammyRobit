@@ -98,8 +98,8 @@ public class Robot extends IterativeRobot {
 		// AutonomousCommandsA autonomousCommands=new AutonomousCommandsA();
 		// Scheduler.getInstance().add(autonomousCommands);
 
-		// Scheduler.getInstance().add(new AutonomousMoveStraight(1, 0.5)); TODO: Find
-		// how arcade drive works
+		Scheduler.getInstance().add(new AutonomousMoveStraight(3.75, 0.6));
+		// TODO: Find how arcade drive works
 	}
 
 	/**

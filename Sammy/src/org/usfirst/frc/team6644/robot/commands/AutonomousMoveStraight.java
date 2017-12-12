@@ -25,11 +25,12 @@ public class AutonomousMoveStraight extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		setTimeout(time);
+		Robot.drivemotors.resetGyro();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.drivemotors.arcadeDrive(speed, -Robot.drivemotors.getDegrees()*kP);
+		Robot.drivemotors.arcadeDrive(speed, Robot.drivemotors.getDegrees() * kP);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

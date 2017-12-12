@@ -14,7 +14,7 @@ public class DriveMotors extends Subsystem {
 	private static Spark rightDrivePWM;
 	private static ADXRS450_Gyro gyro;
 	private static RobotDrive drive;
-	private double motorSafteyExpireTime = 0.1;// sets the PWM to expire in 0.2 seconds after the last call of .Feed()
+	private double motorSafteyExpireTime = 0.3;// sets the PWM to expire in 0.2 seconds after the last call of .Feed()
 
 	public DriveMotors() {
 		leftDrivePWM = new Spark(RobotPorts.LEFT_DRIVE_PWM.get());
@@ -93,7 +93,7 @@ public class DriveMotors extends Subsystem {
 	}
 
 	// methods for gyro
-	public void gyroReset() {
+	public void resetGyro() {
 		gyro.reset();
 		System.out.println("Gyro reset");
 	}
