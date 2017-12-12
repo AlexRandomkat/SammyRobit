@@ -3,6 +3,7 @@ package org.usfirst.frc.team6644.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team6644.robot.Robot;
 /**
  *
  */
@@ -22,9 +23,13 @@ public class UpdateSmartDashboard extends Command {
 		if (driveCommand.isRunning()) {
 			// updates SmartDashboard with the program's motor outputs
 			double[] prgmMotorOutputs = driveCommand.getDriveOutputs();
-			SmartDashboard.putNumber("Left motor:", prgmMotorOutputs[0]);
-			SmartDashboard.putNumber("Right motor:", prgmMotorOutputs[1]);
+			String leftMotor=String.format("%.3f",prgmMotorOutputs[0]);
+			String rightMotor=String.format("%.3f",prgmMotorOutputs[1]);
+			SmartDashboard.putString("Left motor: ",leftMotor);
+			SmartDashboard.putString("Right motor: ",rightMotor);
 		}
+		SmartDashboard.putNumber("Total Radians: ", Robot.drivemotors.getRadiansTotal());
+		SmartDashboard.putNumber("Current Radians: ", Robot.drivemotors.getRadians());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

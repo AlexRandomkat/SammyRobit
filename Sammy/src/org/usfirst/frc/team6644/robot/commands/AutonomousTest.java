@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class AutonomousTest extends Command {
-	private static DriveMotors drivemotors = new DriveMotors();
+	private DriveMotors drivemotors = new DriveMotors();
 	private double leftMotor;
 	private double rightMotor;
 	private double timeInSeconds;
@@ -28,7 +28,7 @@ public class AutonomousTest extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	drivemotors.updateDrive(leftMotor,rightMotor);
+    	drivemotors.tankDrive(leftMotor,rightMotor);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -39,6 +39,7 @@ public class AutonomousTest extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	drivemotors.stop();
     }
 
     // Called when another command which requires one or more of the same

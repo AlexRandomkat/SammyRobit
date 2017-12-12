@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team6644.robot.commands.ExampleCommand;
+
 import org.usfirst.frc.team6644.robot.subsystems.ExampleSubsystem;
 
 import org.usfirst.frc.team6644.robot.subsystems.*;
+import org.usfirst.frc.team6644.robot.commandGroups.*;
 import org.usfirst.frc.team6644.robot.commands.*;
-
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,9 +27,9 @@ public class Robot extends IterativeRobot {
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 	public static DriveMotors drivemotors;
-	//test
+	// test
 	public static Joystick joystick = new Joystick(RobotPorts.JOYSTICK.get());
-	//end test
+	// end test
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -39,19 +39,15 @@ public class Robot extends IterativeRobot {
 	 * for any initialization code.
 	 */
 	@Override
-	public void robotInit(){
+	public void robotInit() {
+		// ROBOT MUST BE STILL WHEN TURNED ON
+		drivemotors = new DriveMotors();
 		oi = new OI();
-		drivemotors=new DriveMotors();
+
+		new DisplayVision();
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
-		//test stuff
-		System.out.println("X axis channel: "+joystick.getAxisChannel(Joystick.AxisType.kX));
-		System.out.println("Y axis channel: "+joystick.getAxisChannel(Joystick.AxisType.kY));
-		System.out.println("Z axis channel: "+joystick.getAxisChannel(Joystick.AxisType.kZ));
-		System.out.println("Twist axis channel: "+joystick.getAxisChannel(Joystick.AxisType.kTwist));
-		System.out.println("Throttle axis channel: "+joystick.getAxisChannel(Joystick.AxisType.kThrottle));
-		//end test stuff
 	}
 
 	/**
@@ -61,7 +57,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
+		// clear everything that may be on the scheduler
+		Scheduler.getInstance().removeAll();
 	}
 
 	@Override
@@ -82,19 +79,27 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
-
+		// might use the commented out stuff below later
 		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		 * switch(autoSelected) { case "My Auto": autonomousCommand = new
-		 * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
-		 * ExampleCommand(); break; }
+		 * autonomousCommand = chooser.getSelected();
+		 * 
+		 * // String autoSelected = SmartDashboard.getString("Auto Selector",
+		 * "Default"); // switch(autoSelected) { case "My Auto": autonomousCommand = new
+		 * // MyAutoCommand(); break; case "Default Auto": default: autonomousCommand =
+		 * new // ExampleCommand(); break; }
+		 * 
+		 * 
+		 * // schedule the autonomous command (example) if (autonomousCommand != null) {
+		 * autonomousCommand.start(); }
 		 */
 
-		// schedule the autonomous command (example)
-		if (autonomousCommand != null) {
-			autonomousCommand.start();
-		}
+		// add commands to scheduler for autonomous mode
+
+		// AutonomousCommandsA autonomousCommands=new AutonomousCommandsA();
+		// Scheduler.getInstance().add(autonomousCommands);
+
+		Scheduler.getInstance().add(new AutonomousMoveStraight(3.75, 0.6));
+		// TODO: Find how arcade drive works
 	}
 
 	/**
@@ -114,12 +119,14 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
-		// add command to drive robot with joystick
-		//DriveWithJoystick drive = new DriveWithJoystick();
+
+		// add command to drive robot with joystick and send stuff to SmartDashboard
+		// DriveWithJoystick drive = new DriveWithJoystick();
 		DriveWithJoystickWithSensitivity drive = new DriveWithJoystickWithSensitivity();
 		UpdateSmartDashboard outputs = new UpdateSmartDashboard();
 		Scheduler.getInstance().add(drive);
 		Scheduler.getInstance().add(outputs);
+		Scheduler.getInstance().add(new AccelerometerTest());
 	}
 
 	/**
@@ -136,13 +143,13 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
-		//test stuff
+		// test stuff
 		try {
 			System.out.println(joystick.getRawAxis(3));
 			Thread.sleep(50);
-		} catch(InterruptedException e) {
+		} catch (InterruptedException e) {
 			System.out.println(e);
 		}
-		//end test stuff
+		// end test stuff
 	}
 }

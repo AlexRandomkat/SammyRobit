@@ -3,37 +3,48 @@ package org.usfirst.frc.team6644.robot.commands;
 import org.usfirst.frc.team6644.robot.subsystems.DriveMotors;
 
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team6644.robot.Robot;
 
 /**
- *incomplete
+ * incomplete
  */
 public class AutonomousMoveStraight extends Command {
-	private static DriveMotors drivemotors = new DriveMotors();
-	private static double motorSpeed;
-    public AutonomousMoveStraight(double distance,double time) {
-        // Use requires() here to declare subsystem dependencies
-        requires(drivemotors);
-    }
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    }
+	private double speed = 0;
+	private double time = 0;
+	private double kP = 0.1;
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    }
+	public AutonomousMoveStraight(double time, double speed) {
+		// Use requires() here to declare subsystem dependencies
+		requires(Robot.drivemotors);
+		Robot.drivemotors.disableSafety();// TODO: create method to check saftey status
+		this.speed = speed;
+		this.time = time;
+	}
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return false;
-    }
+	// Called just before this Command runs the first time
+	protected void initialize() {
+		setTimeout(time);
+		Robot.drivemotors.resetGyro();
+	}
 
-    // Called once after isFinished returns true
-    protected void end() {
-    }
+	// Called repeatedly when this Command is scheduled to run
+	protected void execute() {
+		Robot.drivemotors.arcadeDrive(speed, Robot.drivemotors.getDegrees() * kP);
+	}
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    }
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished() {
+		return isTimedOut();
+	}
+
+	// Called once after isFinished returns true
+	protected void end() {
+		Robot.drivemotors.stop();
+	}
+
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	protected void interrupted() {
+	}
 }
