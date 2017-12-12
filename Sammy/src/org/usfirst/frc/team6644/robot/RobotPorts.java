@@ -5,7 +5,7 @@ public enum RobotPorts {
 	JOYSTICK(0),
 
 	// Motor Control
-	LEFT_DRIVE_PWM(0), RIGHT_DRIVE_PWM(1);
+	LEFT_DRIVE_PWM(0), RIGHT_DRIVE_PWM(1), CLIMB_DRIVE_PWM(2);
 
 	// Sensors
 
