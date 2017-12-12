@@ -9,10 +9,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Climb extends Subsystem {
 
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
+	// Put methods for controlling this subsystem
+	// here. Call these from Commands.
 	private static Spark ClimbDrive = new Spark(RobotPorts.CLIMB_DRIVE_PWM.get());
-	private double motorSafteyExpireTime = 0.1;// sets the PWM to expire in 0.2 seconds after the last call of .Feed()
+
+	private double motorSafteyExpireTime = 0.1;// sets the PWM to expire in 0.1 seconds after the last call of .Feed()
 
 	public void enableSaftey() {
 		ClimbDrive.setSafetyEnabled(true);
@@ -23,25 +24,26 @@ public class Climb extends Subsystem {
 		ClimbDrive.setSafetyEnabled(false);
 	}
 
-	public void updateClimb(double climmmb) {
-		// left and right should be double values at/between -1 and 1.
-
-		// Use enableSaftey for turning on drive motor safety. Not much sense in turning
-		// safety on in one motor but not the other.
-		if (ClimbDrive.isSafetyEnabled()) {
-			ClimbDrive.Feed();
+	public void set(double value) {
+		if (value < -1) {
+			ClimbDrive.set(-1);
+			System.out.println("Climb Drive: Tried to make lower than -1");
+		} else if (value > 1) {
+			ClimbDrive.set(1);
+			System.out.println("Climb Drive: Tried to make higher than 1");
+		} else {
+			ClimbDrive.set(value);
 		}
-		ClimbDrive.set(climmmb);//accounts for flipped orientation of motors
+		ClimbDrive.Feed();
 	}
-	
+
 	public void stop() {
 		disableSafety();
 		ClimbDrive.set(0);
 	}
 
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
-    }
+	public void initDefaultCommand() {
+		// Set the default command for a subsystem here.
+		// setDefaultCommand(new MySpecialCommand());
+	}
 }
-

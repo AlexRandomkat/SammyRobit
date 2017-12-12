@@ -11,39 +11,47 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ClimbwithJoystick extends Command {
 	protected Joystick joystick = new Joystick(RobotPorts.JOYSTICK.get());
-	//protected boolean isRunning = false;
+	// protected boolean isRunning = false;
 	protected Climb climbo = new Climb();
+
 	public ClimbwithJoystick() {
-        // Use requires() here to declare subsystem dependencies
-       // requires(Climb);
-    }
+		// Use requires() here to declare subsystem dependencies
+		requires(climbo);
+	}
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    	climbo.enableSaftey();
-		//isRunning = true;
-    }
+	// Called just before this Command runs the first time
+	protected void initialize() {
+		climbo.enableSaftey();
+		// isRunning = true;
+	}
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void isButtonPressed() {
-    	
-    }
-    
-    protected void execute() {
-    //all the code in here
-    }
+	// Called repeatedly when this Command is scheduled to run
+	protected void isButtonPressed() {
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return false;
-    }
+	}
 
-    // Called once after isFinished returns true
-    protected void end() {
-    }
+	protected void execute() {
+		// all the code in here
+		if (joystick.getRawButton(3)) {
+			climbo.set(1);
+		} else if (joystick.getRawButton(5)) {
+			climbo.set(-1);
+		} else {
+			climbo.set(0);
+		} // end else if
+	}
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    }
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished() {
+		return false;
+	}
+
+	// Called once after isFinished returns true
+	protected void end() {
+	}
+
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	protected void interrupted() {
+	}
 }
