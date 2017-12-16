@@ -6,12 +6,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 
 
-public class SammyAccelerometer extends Subsystem {
+public class SammyAccelerometer extends Subsystem{
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 
-	private static BuiltInAccelerometer rioAccelerometer = new BuiltInAccelerometer();
+	//set accelerometer range, don't do anything that causes acceleration >2g in autonomous.
+	private static BuiltInAccelerometer rioAccelerometer = new BuiltInAccelerometer(Accelerometer.Range.k2G);//sets range to +- 2g
+	
 	private static double xTiltAngle = 0;
 	private static double yTiltAngle = 0;
 	private static double rotationAngle = 0;
@@ -25,9 +27,6 @@ public class SammyAccelerometer extends Subsystem {
 	public void calibrateTilt() {
 		//finds the x and y tilt of the accelerometer
 		// do this when the robot is not accelerating
-		
-		//set accelerometer range, don't do anything that causes acceleration >2g in autonomous.
-		rioAccelerometer.setRange(Accelerometer.Range.k2G);//sets range to +- 2g
 		
 		// TODO: check to make sure the getX() and getY() values are not backwards
 		
@@ -135,7 +134,7 @@ public class SammyAccelerometer extends Subsystem {
 		SmartDashboard.putNumber("raw X", rioAccelerometer.getX());
 		SmartDashboard.putNumber("raw Z", rioAccelerometer.getZ());
 	}
-
+	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());

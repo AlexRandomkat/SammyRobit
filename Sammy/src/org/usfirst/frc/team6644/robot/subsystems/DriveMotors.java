@@ -1,6 +1,9 @@
 package org.usfirst.frc.team6644.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Spark;
@@ -9,12 +12,12 @@ import org.usfirst.frc.team6644.robot.RobotPorts;
 /**
  * 
  */
-public class DriveMotors extends Subsystem {
+public class DriveMotors extends Subsystem{
 	private static Spark leftDrivePWM;
 	private static Spark rightDrivePWM;
 	private static ADXRS450_Gyro gyro;
 	private static RobotDrive drive;
-	private double motorSafteyExpireTime = 0.3;// sets the PWM to expire in 0.2 seconds after the last call of .Feed()
+	private double motorSafteyExpireTime = 0.3;// sets the PWM to expire in 0.3 seconds after the last call of .Feed()
 
 	public DriveMotors() {
 		leftDrivePWM = new Spark(RobotPorts.LEFT_DRIVE_PWM.get());
