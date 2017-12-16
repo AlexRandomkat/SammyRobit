@@ -2,6 +2,7 @@ package org.usfirst.frc.team6644.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Spark;
 import org.usfirst.frc.team6644.robot.RobotPorts;
@@ -41,6 +42,10 @@ public class DriveMotors extends Subsystem {
 		drive.arcadeDrive(speed, angle);
 	}
 
+	public void arcadeDrive(GenericHID stick) {
+		drive.arcadeDrive(stick);
+	}
+
 	public void tankDrive(double left, double right) {
 		// left and right should be double values at/between -1 and 1.
 
@@ -53,23 +58,23 @@ public class DriveMotors extends Subsystem {
 				if (right > 1) {
 					left = 1;
 					right = 1;
-				} else if(right < -1){
+				} else if (right < -1) {
 					left = 1;
-					right =-1;
-				}else {
-					left=1;
+					right = -1;
+				} else {
+					left = 1;
 				}
-			} else if(left <-1){
+			} else if (left < -1) {
 				if (right > 1) {
 					left = -1;
 					right = 1;
-				} else if(right < -1){
+				} else if (right < -1) {
 					left = -1;
 					right = -1;
-				}else {
-					left=-1;
+				} else {
+					left = -1;
 				}
-			}else {
+			} else {
 				if (right > 1) {
 					right = 1;
 				} else {
