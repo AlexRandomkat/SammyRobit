@@ -123,7 +123,7 @@ public class Robot extends IterativeRobot {
 
 		// add command to drive robot with joystick and send stuff to SmartDashboard
 		// DriveWithJoystick drive = new DriveWithJoystick();
-		DriveWithJoystickWithSensitivity drive = new DriveWithJoystickWithSensitivity();
+		DriveWithController drive = new DriveWithControllerWithSensitivity();
 		UpdateSmartDashboard outputs = new UpdateSmartDashboard();
 		Scheduler.getInstance().add(drive);
 		Scheduler.getInstance().add(outputs);
@@ -138,19 +138,23 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 	}
 
+	@Override
+	public void testInit() {
+		/*Scheduler.getInstance().removeAll();
+		Scheduler.getInstance().add(new DriveWithController());*/
+	}
+
 	/**
 	 * This function is called periodically during test mode
 	 */
 	@Override
 	public void testPeriodic() {
-		LiveWindow.run();
-		// test stuff
-		try {
-			System.out.println(joystick.getRawAxis(3));
-			Thread.sleep(50);
-		} catch (InterruptedException e) {
-			System.out.println(e);
-		}
+		/*
+		 * LiveWindow.run(); // test stuff try {
+		 * System.out.println(joystick.getRawAxis(3)); Thread.sleep(50); } catch
+		 * (InterruptedException e) { System.out.println(e); }
+		 */
 		// end test stuff
+		Scheduler.getInstance().run();
 	}
 }

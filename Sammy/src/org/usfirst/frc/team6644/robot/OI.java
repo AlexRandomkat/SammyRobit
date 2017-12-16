@@ -39,9 +39,9 @@ public class OI {
 	// button.whenReleased(new ExampleCommand());
 	
 	Joystick stick = new Joystick(RobotPorts.JOYSTICK.get());
-	Button hyp = new JoystickButton(stick, 1);
+	//Button hyp = new JoystickButton(stick, 1);
 	
 	public OI(){
-		hyp.whileHeld(new Hyperspeed());
+		//hyp.whileHeld(new Hyperspeed());
 	}
 }
