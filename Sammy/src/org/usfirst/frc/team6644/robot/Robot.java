@@ -1,18 +1,23 @@
 package org.usfirst.frc.team6644.robot;
 
+import org.usfirst.frc.team6644.robot.commands.AccelerometerTest;
+import org.usfirst.frc.team6644.robot.commands.AutonomousTurn;
+import org.usfirst.frc.team6644.robot.commands.DisplayVision;
+import org.usfirst.frc.team6644.robot.commands.DriveWithController;
+import org.usfirst.frc.team6644.robot.commands.DriveWithControllerWithSensitivity;
+import org.usfirst.frc.team6644.robot.commands.DriveWithDualInput;
+import org.usfirst.frc.team6644.robot.commands.DriveWithJoystickWithSensitivity;
+import org.usfirst.frc.team6644.robot.commands.ExampleCommand;
+import org.usfirst.frc.team6644.robot.commands.UpdateSmartDashboard;
+import org.usfirst.frc.team6644.robot.subsystems.DriveMotors;
+import org.usfirst.frc.team6644.robot.subsystems.ExampleSubsystem;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import org.usfirst.frc.team6644.robot.subsystems.ExampleSubsystem;
-
-import org.usfirst.frc.team6644.robot.subsystems.*;
-import org.usfirst.frc.team6644.robot.commandGroups.*;
-import org.usfirst.frc.team6644.robot.commands.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -123,8 +128,8 @@ public class Robot extends IterativeRobot {
 
 		// add command to drive robot with joystick and send stuff to SmartDashboard
 		// DriveWithJoystick drive = new DriveWithJoystick();
-		//DriveWithController drive = new DriveWithControllerWithSensitivity();
-		DriveWithJoystickWithSensitivity drive = new DriveWithJoystickWithSensitivity();
+		DriveWithDualInput drive = new DriveWithDualInput();
+		// DriveWithDualInput drive = new DriveWithDualInput();
 		UpdateSmartDashboard outputs = new UpdateSmartDashboard();
 		Scheduler.getInstance().add(drive);
 		Scheduler.getInstance().add(outputs);
@@ -141,8 +146,10 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void testInit() {
-		/*Scheduler.getInstance().removeAll();
-		Scheduler.getInstance().add(new DriveWithController());*/
+		/*
+		 * Scheduler.getInstance().removeAll(); Scheduler.getInstance().add(new
+		 * DriveWithController());
+		 */
 	}
 
 	/**
