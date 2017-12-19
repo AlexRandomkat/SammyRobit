@@ -8,9 +8,6 @@ import org.usfirst.frc.team6644.robot.RobotPorts;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-/**
- *
- */
 public class DriveWithJoystick extends Command {
 	protected Joystick joystick = new Joystick(RobotPorts.JOYSTICK.get());
 	protected double left = 0;

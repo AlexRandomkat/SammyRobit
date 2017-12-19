@@ -4,6 +4,7 @@ import org.usfirst.frc.team6644.robot.subsystems.DriveMotors;
 import org.usfirst.frc.team6644.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.PIDCommand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * incomplete
@@ -11,7 +12,7 @@ import edu.wpi.first.wpilibj.command.PIDCommand;
 public class AutonomousTurn extends PIDCommand {
 	private double speed = 0;
 	private double degree = 0;
-	private double sign;
+	private boolean test=true;
 
 	// test stuff
 	private int count = 0;
@@ -19,22 +20,17 @@ public class AutonomousTurn extends PIDCommand {
 	public AutonomousTurn(double speed, double degree) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		super(0.3, 0, 0);
+		super(0.02, 0.0000102*Math.pow(360/degree,2), 0);
 		requires(Robot.drivemotors);
 		this.speed = speed;
 		this.degree = degree;
-		if (degree >= 0) {
-			sign = 1;
-		} else {
-			sign = -1;
-		}
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		Robot.drivemotors.disableSafety();
 		Robot.drivemotors.resetGyro();
-		getPIDController().setSetpoint(degree);
+		setSetpoint(degree);
 		getPIDController().setPercentTolerance(10);// sets to 10% tolerance
 		getPIDController().setToleranceBuffer(10);// takes average of 10 measurements when determining if error is within tolerance
 		
@@ -73,11 +69,8 @@ public class AutonomousTurn extends PIDCommand {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		count++;
-		count %= 50;
-		if (count == 0) {
-			System.out.println("Output: " + sign*output + "\tError: " + getPIDController().getAvgError());
-		}
-		Robot.drivemotors.arcadeDrive(sign*speed*output,1);
+		SmartDashboard.putNumber("Error", getPIDController().getAvgError());
+		SmartDashboard.putNumber("Output", output);
+		Robot.drivemotors.arcadeDrive(0,-speed*output);
 	}
 }

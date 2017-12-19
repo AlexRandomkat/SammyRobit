@@ -1,8 +1,6 @@
 package org.usfirst.frc.team6644.robot.commands;
 
-/**
- *
- */
+
 public class DriveWithJoystickWithSensitivity extends DriveWithJoystick {
 	public DriveWithJoystickWithSensitivity() {
 		super();

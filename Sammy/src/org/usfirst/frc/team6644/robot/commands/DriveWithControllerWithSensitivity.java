@@ -2,9 +2,7 @@ package org.usfirst.frc.team6644.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- *
- */
+
 public class DriveWithControllerWithSensitivity extends DriveWithController {
 	private double sensitivity = 0.7;
 	private double sensitivityStep = 0.005;

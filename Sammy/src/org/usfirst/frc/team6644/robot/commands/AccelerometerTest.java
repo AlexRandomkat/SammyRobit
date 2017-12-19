@@ -4,9 +4,7 @@ import org.usfirst.frc.team6644.robot.subsystems.SammyAccelerometer;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
+
 public class AccelerometerTest extends Command {
 	SammyAccelerometer accel = new SammyAccelerometer();
 	private int count = 0;
