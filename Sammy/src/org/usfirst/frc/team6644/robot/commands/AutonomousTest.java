@@ -4,9 +4,7 @@ import org.usfirst.frc.team6644.robot.subsystems.DriveMotors;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
+
 public class AutonomousTest extends Command {
 	private DriveMotors drivemotors = new DriveMotors();
 	private double leftMotor;

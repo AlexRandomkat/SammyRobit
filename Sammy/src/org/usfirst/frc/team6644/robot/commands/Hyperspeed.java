@@ -1,8 +1,5 @@
 package org.usfirst.frc.team6644.robot.commands;
 
-/**
- *
- */
 public class Hyperspeed extends DriveWithJoystick {
 	public Hyperspeed() {
 		super();

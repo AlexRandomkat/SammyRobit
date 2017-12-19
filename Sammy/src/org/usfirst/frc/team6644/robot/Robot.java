@@ -99,7 +99,7 @@ public class Robot extends IterativeRobot {
 		// Scheduler.getInstance().add(autonomousCommands);
 
 		//Scheduler.getInstance().add(new AutonomousMoveStraight(3.75, 0.6));
-		Scheduler.getInstance().add(new AutonomousTurn(0.4, -360));
+		Scheduler.getInstance().add(new AutonomousTurn(0.7, -360));
 		// TODO: Find how arcade drive works
 	}
 
@@ -123,7 +123,8 @@ public class Robot extends IterativeRobot {
 
 		// add command to drive robot with joystick and send stuff to SmartDashboard
 		// DriveWithJoystick drive = new DriveWithJoystick();
-		DriveWithController drive = new DriveWithControllerWithSensitivity();
+		//DriveWithController drive = new DriveWithControllerWithSensitivity();
+		DriveWithJoystickWithSensitivity drive = new DriveWithJoystickWithSensitivity();
 		UpdateSmartDashboard outputs = new UpdateSmartDashboard();
 		Scheduler.getInstance().add(drive);
 		Scheduler.getInstance().add(outputs);

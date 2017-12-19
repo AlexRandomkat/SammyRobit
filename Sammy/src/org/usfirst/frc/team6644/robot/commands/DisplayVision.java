@@ -5,9 +5,7 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team6644.robot.subsystems.*;
 
-/**
- *
- */
+
 public class DisplayVision extends Command {
 	Vision eyes = new Vision();
 
