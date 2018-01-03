@@ -5,7 +5,6 @@ import org.usfirst.frc.team6644.robot.RobotPorts;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
-import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *

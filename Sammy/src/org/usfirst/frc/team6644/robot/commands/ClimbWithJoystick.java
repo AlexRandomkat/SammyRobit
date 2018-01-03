@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ClimbwithJoystick extends Command {
+public class ClimbWithJoystick extends Command {
 	protected Joystick joystick = new Joystick(RobotPorts.JOYSTICK.get());
 	// protected boolean isRunning = false;
 	protected Climb climbo = new Climb();
 
-	public ClimbwithJoystick() {
+	public ClimbWithJoystick() {
 		// Use requires() here to declare subsystem dependencies
 		requires(climbo);
 	}
