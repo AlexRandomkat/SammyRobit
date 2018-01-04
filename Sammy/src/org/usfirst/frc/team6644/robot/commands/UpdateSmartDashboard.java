@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team6644.robot.Robot;
+
 /**
  *
  */
@@ -23,13 +24,16 @@ public class UpdateSmartDashboard extends Command {
 		if (driveCommand.isRunning()) {
 			// updates SmartDashboard with the program's motor outputs
 			double[] prgmMotorOutputs = driveCommand.getDriveOutputs();
-			String leftMotor=String.format("%.3f",prgmMotorOutputs[0]);
-			String rightMotor=String.format("%.3f",prgmMotorOutputs[1]);
-			SmartDashboard.putString("Left motor: ",leftMotor);
-			SmartDashboard.putString("Right motor: ",rightMotor);
+			String leftMotor = String.format("%.3f", prgmMotorOutputs[0]);
+			String rightMotor = String.format("%.3f", prgmMotorOutputs[1]);
+			SmartDashboard.putString("Left motor: ", leftMotor);
+			SmartDashboard.putString("Right motor: ", rightMotor);
 		}
 		SmartDashboard.putNumber("Total Radians: ", Robot.drivemotors.getRadiansTotal());
 		SmartDashboard.putNumber("Current Radians: ", Robot.drivemotors.getRadians());
+		SmartDashboard.putNumber("IR Voltage: ", Robot.ir.getVoltage());
+		SmartDashboard.putNumber("IR Distance: ", Robot.ir.distanceValue());
+		SmartDashboard.putBoolean("Object CLose", Robot.ir.isClose());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

@@ -5,10 +5,10 @@ public enum RobotPorts {
 	JOYSTICK(0),CONTROLLER(1),
 
 	// Motor Control
-	LEFT_DRIVE_PWM(0), RIGHT_DRIVE_PWM(1), CLIMB_DRIVE_PWM(2);
+	LEFT_DRIVE_PWM(0), RIGHT_DRIVE_PWM(1), CLIMB_DRIVE_PWM(2),
 
 	// Sensors
-
+	FRONT_IR(0);
 	private int portNumber;
 
 	private RobotPorts(int portNumber) {
