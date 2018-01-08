@@ -13,7 +13,7 @@ import org.usfirst.frc.team6644.robot.RobotPorts;
 /**
  * 
  */
-public class DriveMotors extends Subsystem{
+public class DriveMotors extends Subsystem {
 	private static Spark leftDrivePWM;
 	private static Spark rightDrivePWM;
 	private static ADXRS450_Gyro gyro;
@@ -27,6 +27,9 @@ public class DriveMotors extends Subsystem{
 		drive = new RobotDrive(leftDrivePWM, rightDrivePWM);
 
 		gyro = new ADXRS450_Gyro();
+	}
+
+	public void calibrateGyro() {
 		gyro.calibrate();
 	}
 
@@ -120,6 +123,20 @@ public class DriveMotors extends Subsystem{
 
 	public double getRadiansTotal() {
 		return getDegreesTotal() * Math.PI / 180;
+	}
+
+	public void moveStraight(double speed, double time) {
+		// Boolean: go staright
+		// pid: time
+	}
+
+	public void setHeading(double heading) {
+		// double: heading
+		//
+	}
+
+	public void periodic() {
+
 	}
 
 	public void initDefaultCommand() {
