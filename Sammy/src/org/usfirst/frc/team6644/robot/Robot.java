@@ -1,5 +1,6 @@
 package org.usfirst.frc.team6644.robot;
 
+import org.usfirst.frc.team6644.robot.commandGroups.AvoidAutonomous;
 import org.usfirst.frc.team6644.robot.commands.AccelerometerTest;
 import org.usfirst.frc.team6644.robot.commands.AutonomousTurn;
 import org.usfirst.frc.team6644.robot.commands.DisplayVision;
@@ -9,6 +10,7 @@ import org.usfirst.frc.team6644.robot.commands.DriveWithJoystick;
 //import org.usfirst.frc.team6644.robot.commands.DriveWithDualInput;
 import org.usfirst.frc.team6644.robot.commands.DriveWithJoystickWithSensitivity;
 import org.usfirst.frc.team6644.robot.commands.ExampleCommand;
+import org.usfirst.frc.team6644.robot.commands.IRStop;
 import org.usfirst.frc.team6644.robot.commands.UpdateSmartDashboard;
 import org.usfirst.frc.team6644.robot.subsystems.DriveMotors;
 import org.usfirst.frc.team6644.robot.subsystems.ExampleSubsystem;
@@ -50,6 +52,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		// ROBOT MUST BE STILL WHEN TURNED ON
 		drivemotors = new DriveMotors();
+		drivemotors.calibrateGyro();
 		oi = new OI();
 		ir = new IRSensor();
 		new DisplayVision();
@@ -107,7 +110,7 @@ public class Robot extends IterativeRobot {
 		// Scheduler.getInstance().add(autonomousCommands);
 
 		// Scheduler.getInstance().add(new AutonomousMoveStraight(3.75, 0.6));
-		Scheduler.getInstance().add(new AutonomousTurn(-360));
+		Scheduler.getInstance().add(new AvoidAutonomous(.6));
 	}
 
 	/**
@@ -129,7 +132,7 @@ public class Robot extends IterativeRobot {
 		}
 
 		// add command to drive robot with joystick and send stuff to SmartDashboard
-		DriveWithJoystick drive = new DriveWithJoystick();
+		DriveWithJoystick drive = new DriveWithJoystickWithSensitivity();
 		// DriveWithDualInput drive = new DriveWithDualInput();
 		// DriveWithDualInput drive = new DriveWithDualInput();
 		UpdateSmartDashboard outputs = new UpdateSmartDashboard();

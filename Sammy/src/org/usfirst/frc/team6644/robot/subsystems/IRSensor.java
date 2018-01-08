@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 
 public class IRSensor extends Subsystem {
 	private static AnalogInput sensor = new AnalogInput(RobotPorts.FRONT_IR.get());
+	protected static final double closeRange = 1.5;
 
 	public double getVoltage() {
 		return sensor.getVoltage();
@@ -17,7 +18,7 @@ public class IRSensor extends Subsystem {
 	}
 
 	public boolean isClose() {
-		if (distanceValue() < 1) {
+		if (distanceValue() < closeRange) {
 			return true;
 		}
 		return false;
