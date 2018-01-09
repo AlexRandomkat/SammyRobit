@@ -1,19 +1,14 @@
 package org.usfirst.frc.team6644.robot.commands;
 
+import org.usfirst.frc.team6644.robot.Robot;
 
 public class DriveWithJoystickWithSensitivity extends DriveWithJoystick {
 	public DriveWithJoystickWithSensitivity() {
 		super();
 	}
 
-	private double sensitivity;
-
 	// Called repeatedly when this Command is scheduled to run
-	protected void calculateMotorOutputs() {
-		super.calculateMotorOutputs();
-
-		sensitivity = (-joystick.getRawAxis(3) + 1) / 2;
-		left *= sensitivity;
-		right *= sensitivity;
+	protected void execute() {
+		Robot.drivemotors.driveWithJoystickWithSensitivity();
 	}
 }

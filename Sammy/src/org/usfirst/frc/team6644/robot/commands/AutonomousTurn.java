@@ -1,8 +1,8 @@
 package org.usfirst.frc.team6644.robot.commands;
 
 import org.usfirst.frc.team6644.robot.Robot;
+import org.usfirst.frc.team6644.robot.commands.abstractClasses.PIDCommandOptimizable;
 
-import org.usfirst.frc.team6644.robot.custom.PIDCommandOptimizable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**

@@ -20,10 +20,9 @@ public class UpdateSmartDashboard extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		DriveWithJoystickWithSensitivity driveCommand = new DriveWithJoystickWithSensitivity();
-		if (driveCommand.isRunning()) {
+		if (Robot.drivemotors.isRunning()) {
 			// updates SmartDashboard with the program's motor outputs
-			double[] prgmMotorOutputs = driveCommand.getDriveOutputs();
+			double[] prgmMotorOutputs = Robot.drivemotors.getDriveOutputs();
 			String leftMotor = String.format("%.3f", prgmMotorOutputs[0]);
 			String rightMotor = String.format("%.3f", prgmMotorOutputs[1]);
 			SmartDashboard.putString("Left motor: ", leftMotor);
