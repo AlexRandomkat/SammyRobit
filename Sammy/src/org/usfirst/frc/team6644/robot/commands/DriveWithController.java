@@ -13,8 +13,7 @@ public class DriveWithController extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.drivemotors.enableSaftey();
-		Robot.drivemotors.setIsRunning(true);
+		Robot.drivemotors.startTeleopMode();
 	}
 
 	// Called repeatedly when this Command is scheduled to run

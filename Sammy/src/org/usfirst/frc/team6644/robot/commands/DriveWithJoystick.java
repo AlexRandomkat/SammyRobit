@@ -12,15 +12,14 @@ public class DriveWithJoystick extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.drivemotors.enableSaftey();
-		Robot.drivemotors.setIsRunning(true);
+		Robot.drivemotors.startTeleopMode();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		Robot.drivemotors.driveWithJoystick();
 	}
-	
+
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
 		return false;
@@ -29,12 +28,11 @@ public class DriveWithJoystick extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.drivemotors.stop();
-		Robot.drivemotors.disableSafety();
-		Robot.drivemotors.setIsRunning(false);
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
+
 	}
 }

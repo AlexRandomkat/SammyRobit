@@ -32,7 +32,9 @@ public class UpdateSmartDashboard extends Command {
 		SmartDashboard.putNumber("Current Radians: ", Robot.drivemotors.getRadians());
 		SmartDashboard.putNumber("IR Voltage: ", Robot.ir.getVoltage());
 		SmartDashboard.putNumber("IR Distance: ", Robot.ir.distanceValue());
-		SmartDashboard.putBoolean("Object CLose", Robot.ir.isClose());
+		SmartDashboard.putBoolean("Object Close", Robot.ir.isClose());
+		SmartDashboard.putNumber("Ultra", Robot.ultra.getRangeInches());
+		SmartDashboard.putNumber("Force", Robot.force.getVoltage());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

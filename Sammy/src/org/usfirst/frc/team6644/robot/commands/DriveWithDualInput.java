@@ -5,7 +5,7 @@ import org.usfirst.frc.team6644.robot.Robot;
 /**
  *
  */
-public class DriveWithDualInput extends DriveWithJoystickWithSensitivity {
+public class DriveWithDualInput extends DriveWithJoystick {
 
 	public DriveWithDualInput() {
 		super();
