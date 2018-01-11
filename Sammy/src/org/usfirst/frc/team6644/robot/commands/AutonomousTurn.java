@@ -1,8 +1,8 @@
 package org.usfirst.frc.team6644.robot.commands;
 
 import org.usfirst.frc.team6644.robot.Robot;
+import org.usfirst.frc.team6644.robot.commands.abstractClasses.PIDCommandOptimizable;
 
-import org.usfirst.frc.team6644.robot.custom.PIDCommandOptimizable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -21,8 +21,7 @@ public class AutonomousTurn extends PIDCommandOptimizable {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.drivemotors.disableSafety();
-		Robot.drivemotors.resetGyro();
+		Robot.drivemotors.startAutoMode();
 		setSetpoint(degree);
 		getPIDController().setPercentTolerance(0.5);// sets to 0.5% tolerance
 		getPIDController().setToleranceBuffer(10);// takes average of 10 measurements when determining if error is within tolerance

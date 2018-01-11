@@ -2,19 +2,15 @@ package org.usfirst.frc.team6644.robot;
 
 import org.usfirst.frc.team6644.robot.commandGroups.AvoidAutonomous;
 import org.usfirst.frc.team6644.robot.commands.AccelerometerTest;
-import org.usfirst.frc.team6644.robot.commands.AutonomousTurn;
 import org.usfirst.frc.team6644.robot.commands.DisplayVision;
 import org.usfirst.frc.team6644.robot.commands.DriveWithJoystick;
-//import org.usfirst.frc.team6644.robot.commands.DriveWithController;
-//import org.usfirst.frc.team6644.robot.commands.DriveWithControllerWithSensitivity;
-//import org.usfirst.frc.team6644.robot.commands.DriveWithDualInput;
-import org.usfirst.frc.team6644.robot.commands.DriveWithJoystickWithSensitivity;
 import org.usfirst.frc.team6644.robot.commands.ExampleCommand;
-import org.usfirst.frc.team6644.robot.commands.IRStop;
 import org.usfirst.frc.team6644.robot.commands.UpdateSmartDashboard;
 import org.usfirst.frc.team6644.robot.subsystems.DriveMotors;
 import org.usfirst.frc.team6644.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team6644.robot.subsystems.ForceSensor;
 import org.usfirst.frc.team6644.robot.subsystems.IRSensor;
+import org.usfirst.frc.team6644.robot.subsystems.UltrasonicSensor;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -35,8 +31,12 @@ public class Robot extends IterativeRobot {
 
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
+	
+	//sensors
 	public static IRSensor ir;
+	public static UltrasonicSensor ultra;
 	public static DriveMotors drivemotors;
+	public static ForceSensor force;
 	// test
 	public static Joystick joystick = new Joystick(RobotPorts.JOYSTICK.get());
 	// end test
@@ -55,6 +55,8 @@ public class Robot extends IterativeRobot {
 		drivemotors.calibrateGyro();
 		oi = new OI();
 		ir = new IRSensor();
+		force = new ForceSensor();
+		ultra = new UltrasonicSensor();
 		new DisplayVision();
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
@@ -132,7 +134,7 @@ public class Robot extends IterativeRobot {
 		}
 
 		// add command to drive robot with joystick and send stuff to SmartDashboard
-		DriveWithJoystick drive = new DriveWithJoystickWithSensitivity();
+		DriveWithJoystick drive = new DriveWithJoystick();
 		// DriveWithDualInput drive = new DriveWithDualInput();
 		// DriveWithDualInput drive = new DriveWithDualInput();
 		UpdateSmartDashboard outputs = new UpdateSmartDashboard();

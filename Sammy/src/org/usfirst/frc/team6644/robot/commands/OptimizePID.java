@@ -1,8 +1,10 @@
 package org.usfirst.frc.team6644.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+
+import org.usfirst.frc.team6644.robot.commands.abstractClasses.PIDCommandOptimizable;
+
 import edu.wpi.first.wpilibj.Timer;
-import org.usfirst.frc.team6644.robot.custom.PIDCommandOptimizable;
 
 /*
  * Made because hand-tuning PID loops is really annoying.
@@ -10,23 +12,34 @@ import org.usfirst.frc.team6644.robot.custom.PIDCommandOptimizable;
 public class OptimizePID extends Command {
 	private PIDCommandOptimizable toBeOptimized;
 	private Timer timer;
-	private double targetTime; //target time for PID loop to finish executing
-	private double timeLimit; //timeTolerance*targetTime is the alloted time for the PID loop to finish executing before it is ended.
+	private double targetTime; // target time for PID loop to finish executing
+	private double timeLimit; // timeTolerance*targetTime is the alloted time for the PID loop to finish
+								// executing before it is ended.
 	private double kP;
 	private double kI;
 	private double kD;
-	private double runtime; //stores runtime of a PID loop
-	private double errorRatio; //stores leftover error of PID loop divided by the setpoint
-	private double setback;//accounts for overshoot after PID loop ends
+	private double kF=0;
+	private double runtime; // stores runtime of a PID loop
+	private double errorRatio; // stores leftover error of PID loop divided by the setpoint
+	private double setback;// accounts for overshoot after PID loop ends
 
-	public OptimizePID(PIDCommandOptimizable toBeOptomized, double targetTimeInSeconds,
-			double timeTolerance) {
+	public OptimizePID(PIDCommandOptimizable toBeOptomized, double targetTimeInSeconds, double timeTolerance) {
 		this.toBeOptimized = toBeOptomized;
-		
+
 		// I may end up deleting these two variables if I don't use them outside of the
 		// constructor.
 		this.targetTime = targetTimeInSeconds;
-		this.timeLimit = timeTolerance*targetTimeInSeconds;	
+		this.timeLimit = timeTolerance * targetTimeInSeconds;
+	}
+	
+	public OptimizePID(PIDCommandOptimizable toBeOptomized, double Kf, double targetTimeInSeconds, double timeTolerance) {
+		this.toBeOptimized = toBeOptomized;
+
+		// I may end up deleting these two variables if I don't use them outside of the
+		// constructor.
+		this.kF=kF;
+		this.targetTime = targetTimeInSeconds;
+		this.timeLimit = timeTolerance * targetTimeInSeconds;
 	}
 
 	// Called just before this Command runs the first time
@@ -42,14 +55,20 @@ public class OptimizePID extends Command {
 		/*
 		 * PLEASE MAKE SURE THAT toBeOptomized.usePIDOutput is limited for safety!!!!!!
 		 */
+		toBeOptimized.changePIDCoefficients(kP,kI,kD,kF);
 		timer.start();
 		toBeOptimized.optimizePIDstart();
-		while(toBeOptimized.isRunning()) {
-			if(timer.get()>timeLimit) {
-				errorRatio=toBeOptimized.optimizePIDinterrupted();	
+		while (toBeOptimized.isRunning()) {
+			if (timer.get() > timeLimit) {
+				runtime=timer.get();
+				toBeOptimized.interrupted=true;
+				errorRatio = toBeOptimized.optimizePIDinterrupted();
 			}
 		}
-		//TODO account for overshoot after PID loop ends
+		if(toBeOptimized.interrupted==false) {
+			runtime=timer.get();
+		}
+		// TODO account for overshoot after PID loop ends
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
