@@ -19,6 +19,6 @@ public class IRStop extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return Robot.ir.isClose();
+		return Robot.frontIR.isClose();
 	}
 }

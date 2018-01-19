@@ -6,8 +6,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.AnalogInput;
 
 public class IRSensor extends Subsystem {
-	private static AnalogInput sensor = new AnalogInput(RobotPorts.FRONT_IR.get());
+	private AnalogInput sensor;
 	protected static final double closeRange = 1.5;
+	public IRSensor(int port){
+		sensor = new AnalogInput(port);
+	}
 
 	public double getVoltage() {
 		return sensor.getVoltage();

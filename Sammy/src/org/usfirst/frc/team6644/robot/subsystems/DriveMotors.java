@@ -153,8 +153,8 @@ public class DriveMotors extends Subsystem {
 		if (disableMotors) {
 			sensitivity = 0;
 		}
-		left = forwardModifier * joystick.getX() - joystick.getY() * sensitivity;
-		right = -forwardModifier * joystick.getX() - joystick.getY() * sensitivity;
+		left = (forwardModifier * joystick.getX() - joystick.getY()) * sensitivity;
+		right = (-forwardModifier * joystick.getX() - joystick.getY()) * sensitivity;
 		tankDrive(left, right);
 	}
 
@@ -232,6 +232,16 @@ public class DriveMotors extends Subsystem {
 	public void setRumble(double right, double left) {
 		controller.setRumble(RumbleType.kLeftRumble, left);
 		controller.setRumble(RumbleType.kRightRumble, right);
+	}
+	
+	public void toggleMotorDisableState() {
+		disableMotors = !disableMotors;
+	}
+	public void disableMotors() {
+		disableMotors = true;
+	}
+	public void enableMotors() {
+		disableMotors = false;
 	}
 
 	/*
