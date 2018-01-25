@@ -1,7 +1,5 @@
 package org.usfirst.frc.team6644.robot.commands;
 
-import org.usfirst.frc.team6644.robot.subsystems.DriveMotors;
-
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team6644.robot.Robot;
 
@@ -17,7 +15,7 @@ public class AutonomousMoveStraight extends Command {
 	public AutonomousMoveStraight(double time, double speed) {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.drivemotors);
-		Robot.drivemotors.disableSafety();// TODO: create method to check saftey status
+		Robot.drivemotors.startAutoMode();
 		this.speed = speed;
 		this.time = time;
 	}

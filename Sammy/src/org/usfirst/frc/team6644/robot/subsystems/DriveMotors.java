@@ -141,7 +141,7 @@ public class DriveMotors extends Subsystem {
 
 	/*
 	 * 
-	 * methods for driving in Teleop and Autonomous
+	 * methods for driving in Teleop
 	 */
 	public void setIsRunning(boolean isRunning) {
 		this.isRunning = isRunning;
@@ -233,6 +233,19 @@ public class DriveMotors extends Subsystem {
 		controller.setRumble(RumbleType.kLeftRumble, left);
 		controller.setRumble(RumbleType.kRightRumble, right);
 	}
+	
+	/*
+	 * 
+	 * Methods for driving in Autonomous
+	 */
+	public void moveStraight(double speed, double kP) {
+		arcadeDrive(speed, Robot.drivemotors.getDegrees() * kP);
+	}
+	
+	public void setHeading(double heading, double kP) {
+		// double: heading
+		//
+	}
 
 	/*
 	 * 
@@ -276,16 +289,6 @@ public class DriveMotors extends Subsystem {
 		driveOutputs[0] = left;
 		driveOutputs[1] = right;
 		return driveOutputs;
-	}
-
-	public void moveStraight(double speed, double time) {
-		// Boolean: go staright
-		// pid: time
-	}
-
-	public void setHeading(double heading) {
-		// double: heading
-		//
 	}
 
 	public void initDefaultCommand() {
