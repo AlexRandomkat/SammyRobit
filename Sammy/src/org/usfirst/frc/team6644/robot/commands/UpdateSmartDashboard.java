@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team6644.robot.Robot;
+import org.usfirst.frc.team6644.robot.subsystems.GRIP_SDS;
+import org.usfirst.frc.team6644.robot.subsystems.Vision;
 
 /**
  *
@@ -25,6 +27,7 @@ public class UpdateSmartDashboard extends Command {
 			double[] prgmMotorOutputs = Robot.drivemotors.getDriveOutputs();
 			String leftMotor = String.format("%.3f", prgmMotorOutputs[0]);
 			String rightMotor = String.format("%.3f", prgmMotorOutputs[1]);
+
 			SmartDashboard.putString("Left motor: ", leftMotor);
 			SmartDashboard.putString("Right motor: ", rightMotor);
 		}
@@ -35,6 +38,10 @@ public class UpdateSmartDashboard extends Command {
 		SmartDashboard.putBoolean("Object Close", Robot.ir.isClose());
 		SmartDashboard.putNumber("Ultra", Robot.ultra.getRangeInches());
 		SmartDashboard.putNumber("Force", Robot.force.getVoltage());
+		
+		//SmartDashboard.putNumber("x SDS: ", Robot.pipeline.getxVideoValue());
+		//SmartDashboard.putNumber("y SDS: ", Robot.pipeline.getyVideoValue());
+		//SmartDashboard.putNumber("size SDS: ", Robot.pipeline.getsizeVideoValue());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

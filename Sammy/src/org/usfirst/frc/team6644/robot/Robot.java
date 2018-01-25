@@ -1,5 +1,8 @@
 package org.usfirst.frc.team6644.robot;
 
+import org.opencv.core.Mat;
+import org.opencv.core.Size;
+import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team6644.robot.commandGroups.AvoidAutonomous;
 import org.usfirst.frc.team6644.robot.commands.AccelerometerTest;
 import org.usfirst.frc.team6644.robot.commands.DisplayVision;
@@ -9,15 +12,23 @@ import org.usfirst.frc.team6644.robot.commands.UpdateSmartDashboard;
 import org.usfirst.frc.team6644.robot.subsystems.DriveMotors;
 import org.usfirst.frc.team6644.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team6644.robot.subsystems.ForceSensor;
+import org.usfirst.frc.team6644.robot.subsystems.GRIP_SDS;
 import org.usfirst.frc.team6644.robot.subsystems.IRSensor;
 import org.usfirst.frc.team6644.robot.subsystems.UltrasonicSensor;
-
+import org.usfirst.frc.team6644.robot.subsystems.Vision;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -30,13 +41,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+//	public static NetworkTable table;
 	public static OI oi;
-	
-	//sensors
+//	public static boolean Tabling;
+	// sensors
 	public static IRSensor ir;
 	public static UltrasonicSensor ultra;
 	public static DriveMotors drivemotors;
 	public static ForceSensor force;
+	public static int i;
+	public static DisplayVision displayvisionthing;
+	//public static CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
+	public static Mat sworce = new Mat();
+
+	
+
 	// test
 	public static Joystick joystick = new Joystick(RobotPorts.JOYSTICK.get());
 	// end test
@@ -57,10 +76,21 @@ public class Robot extends IterativeRobot {
 		ir = new IRSensor();
 		force = new ForceSensor();
 		ultra = new UltrasonicSensor();
-		new DisplayVision();
+		i=0;
+//		Mat RonakHat = new Mat();
+		
+		displayvisionthing = new DisplayVision();
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
+		
+//		Mat Empty = new Mat();
+		//long Long1 = Vision.cvSink.grabFrame(Empty); == long Long1 = (long) Empty; 
+//		Mat Mat1 = new Mat(Long1);
+//		Mat Mat2 = new Mat();
+		
+//		Imgproc.resize(Mat1, Mat2, new Size(64, 64), 0.0, 0.0, Imgproc.INTER_CUBIC);
+			
 	}
 
 	/**
@@ -77,6 +107,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		
 	}
 
 	/**
@@ -146,9 +177,13 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during operator control
 	 */
+	
 	@Override
 	public void teleopPeriodic() {
+		i++;
 		Scheduler.getInstance().run();
+		displayvisionthing.execute();
+	
 	}
 
 	@Override
@@ -157,7 +192,28 @@ public class Robot extends IterativeRobot {
 		 * Scheduler.getInstance().removeAll(); Scheduler.getInstance().add(new
 		 * DriveWithController());
 		 */
+	//	Robot.Table();
 	}
+	//static int counter = 0;
+	//static double[] defaultValue = new double[0];
+	//public static void Table() {
+	//	 NetworkTable table = NetworkTable.getTable("GRIP/myBlobsReport");
+//		int counter=0;
+//		double[] defaultValue = new double[0];
+//		//while (Tabling) {
+//		for(int tables = 0; tables < 120; tables++) {
+//			double[] areas = table.getNumberArray("size", defaultValue);
+//			double[] Xs = table.getNumberArray("centerX", defaultValue);
+//			double[] Ys = table.getNumberArray("centerY", defaultValue);
+//			for (double area : areas) {
+//				System.out.println("areas: "+ area+"\t xOBJECT: "+Xs[counter] + "\t yOBJECT: "+Ys[counter] );
+//				counter++;
+//			}
+//			System.out.println();
+//			Timer.delay(1);
+//		}
+		
+//	}
 
 	/**
 	 * This function is called periodically during test mode
