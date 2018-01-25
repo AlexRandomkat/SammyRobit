@@ -153,8 +153,8 @@ public class DriveMotors extends Subsystem {
 		if (disableMotors) {
 			sensitivity = 0;
 		}
-		left = forwardModifier * joystick.getX() - joystick.getY() * sensitivity;
-		right = -forwardModifier * joystick.getX() - joystick.getY() * sensitivity;
+		left = (forwardModifier * joystick.getX() - joystick.getY()) * sensitivity;
+		right = (-forwardModifier * joystick.getX() - joystick.getY()) * sensitivity;
 		tankDrive(left, right);
 	}
 
@@ -233,18 +233,14 @@ public class DriveMotors extends Subsystem {
 		controller.setRumble(RumbleType.kLeftRumble, left);
 		controller.setRumble(RumbleType.kRightRumble, right);
 	}
-	
-	/*
-	 * 
-	 * Methods for driving in Autonomous
-	 */
-	public void moveStraight(double speed, double kP) {
-		arcadeDrive(speed, Robot.drivemotors.getDegrees() * kP);
+	public void toggleMotorDisableState() {
+		disableMotors = !disableMotors;
 	}
-	
-	public void setHeading(double heading, double kP) {
-		// double: heading
-		//
+	public void disableMotors() {
+		disableMotors = true;
+	}
+	public void enableMotors() {
+		disableMotors = false;
 	}
 
 	/*
@@ -290,7 +286,6 @@ public class DriveMotors extends Subsystem {
 		driveOutputs[1] = right;
 		return driveOutputs;
 	}
-
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
