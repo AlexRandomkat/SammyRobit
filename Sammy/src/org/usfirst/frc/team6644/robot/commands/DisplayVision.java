@@ -27,6 +27,7 @@ public class DisplayVision extends Command {
 		execute();
 		
 		
+		
 	}
 
 	// Called just before this Command runs the first time

@@ -25,11 +25,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoSource;
+
 /**
  * class.
  *
@@ -50,12 +50,9 @@ public class GRIP_SDS extends Subsystem implements VisionPipeline {
 	public static double xVideoValue = 0;
 	public static double yVideoValue = 0;
 	public static double sizeVideoValue = 0;
+	public static String value = new String(" ");
 	private CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
-	//public static UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-	//public static CvSink cvSink = CameraServer.getInstance().getVideo();
 	public static List<KeyPoint> ListOfPoints = new ArrayList<KeyPoint>();
-	 //public static CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
-	 
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 	}
@@ -67,9 +64,9 @@ public class GRIP_SDS extends Subsystem implements VisionPipeline {
 	@Override
 	public void initDefaultCommand() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	public void process(Mat source0) {
 		// Step Resize_Image0:
@@ -81,6 +78,7 @@ public class GRIP_SDS extends Subsystem implements VisionPipeline {
 		resizeImage(resizeImageInput, resizeImageWidth, resizeImageHeight, resizeImageInterpolation, resizeImageOutput);
 
 		// Step Blur0:
+		//Mat blur0Input = resizeImageOutput;
 		Mat blur0Input = resizeImageOutput;
 		BlurType blur0Type = BlurType.get("Median Filter");
 		double blur0Radius = 12;
@@ -100,67 +98,86 @@ public class GRIP_SDS extends Subsystem implements VisionPipeline {
 		blur(blur1Input, blur1Type, blur1Radius, blur1Output);
 
 		// Step Mask0:
-		//Mat maskInput = resizeImageOutput;
-		//Mat maskMask = blur1Output;
-		//mask(maskInput, maskMask, maskOutput);
+		// Mat maskInput = resizeImageOutput;
+		// Mat maskMask = blur1Output;
+		// mask(maskInput, maskMask, maskOutput);
 
 		// Step Find_Blobs0:
 		Mat findBlobsInput = blur1Output;
-		double findBlobsMinArea = 10.0;
+		double findBlobsMinArea = 1.0;
 		double[] findBlobsCircularity = { 0.0, 1.0 };
 		boolean findBlobsDarkBlobs = false;
-		findBlobs(findBlobsInput/*blur0Output*/, findBlobsMinArea, findBlobsCircularity, findBlobsDarkBlobs, findBlobsOutput);
-		
-//		resizeImageOutput = new Mat();
-//		blur0Output = new Mat();
-//		hsvThresholdOutput = new Mat();
-//		blur1Output = new Mat();
-//		maskOutput = new Mat();
-//		findBlobsOutput = new MatOfKeyPoint();
+		findBlobs(findBlobsInput/* blur0Output */, findBlobsMinArea, findBlobsCircularity, findBlobsDarkBlobs,
+				findBlobsOutput);
+
+		// resizeImageOutput = new Mat();
+		// blur0Output = new Mat();
+		// hsvThresholdOutput = new Mat();
+		// blur1Output = new Mat();
+		// maskOutput = new Mat();
+		// findBlobsOutput = new MatOfKeyPoint();
 
 		// setting values stuff
-		//KeyPoint[] points ;
-		String value = new String(" ");
-		if(!findBlobsOutput.toList().isEmpty()) {
+		// KeyPoint[] points ;
+
+		int largest = 0;
+		int amount = 0;
+		//int xVideoValue = -1;
+		//int yVideoValue = -1;
+		//int sizeVideoValue = -1;
+		if (!findBlobsOutput.toList().isEmpty()) {
 			ListOfPoints = findBlobsOutput.toList();
 			value = "true";
-		}
+			for (int spaghetti = 0; spaghetti < ListOfPoints.size() - 1; spaghetti++) {
+					amount = ListOfPoints.size();
+				if (ListOfPoints.get(spaghetti + 1).size > ListOfPoints.get(spaghetti).size) {
+					largest = spaghetti + 1;
+				} // end if
+				if (!(ListOfPoints.get(spaghetti + 1).size > ListOfPoints.get(spaghetti).size)) {
+					largest = spaghetti;
+				} // end else if
+
+			} // end for
+
+		} // end big if
 		else {
 			value = "false";
+			xVideoValue= -1;
+			yVideoValue = -1;
+			sizeVideoValue = -1;
+			amount = 0;
 		}
-		//for (int a = 0; a < points.length || a < 1000; a++) {
-			// System.out.print(bon[a]);
-			/*if (points[a] == null) {
-				sizeVideoValue = 0;
-				xVideoValue = 0;
-				yVideoValue = 0;
-			} else {
-				sizeVideoValue = point[a].size;
-				xVideoValue = point[a].pt.x;
-				yVideoValue = point[a].pt.y; 
-			
-			}*/
-			/*
-			if(!ListOfPoints.isEmpty()) {
-			if(!points[a].equals(null)) {
-				ListOfPoints.add(points[a]);
-				//SmartDashboard.putString("Bananas?:", "true");
-				value = "true";
-				
-			}
-			}
-			if(ListOfPoints.isEmpty()) {
-				//SmartDashboard.putString("Bananas?", "false");
-				value = "false";
-				
-			}
-			*/
+		if (!findBlobsOutput.toList().isEmpty()) {
+			xVideoValue= (int) ListOfPoints.get(largest).pt.x;
+			yVideoValue = (int) ListOfPoints.get(largest).pt.y;
+			sizeVideoValue = (int) ListOfPoints.get(largest).size;
+		}
+		SmartDashboard.putNumber("X distance", centerrobotXAxis());
+		SmartDashboard.putNumber("Y distance", centerrobotYAxis());
+		
+		SmartDashboard.putNumber("Number of Bananas", amount);
 	
-			outputStream.putFrame(blur0Output);
-SmartDashboard.putString("Bananas?:", value); //"dont know yet");
-		}
+	}
 
-//}
+
+
+	public double centerrobotXAxis() {
+		double midxaxis = 150;
+		if (xVideoValue <= midxaxis) {
+			return midxaxis - xVideoValue;
+		} else {
+			return xVideoValue - midxaxis;
+		}
+	}//returns distance on the x axis from the center
+
+	public double centerrobotYAxis() {
+		double midyaxis = 164;
+		if (yVideoValue <= midyaxis) {
+			return midyaxis - yVideoValue;
+		} else {
+			return yVideoValue - midyaxis;
+		}
+	}//returns distance on the y axis from the center
 
 	public double getxVideoValue() {
 		process(Vision.toBeProcessed);
@@ -177,7 +194,6 @@ SmartDashboard.putString("Bananas?:", value); //"dont know yet");
 		return sizeVideoValue;
 	}
 
-	
 	/**
 	 * This method is a generated getter for the output of a Resize_Image.
 	 * 
@@ -247,8 +263,9 @@ SmartDashboard.putString("Bananas?:", value); //"dont know yet");
 	 *            The image in which to store the output.
 	 */
 	private void resizeImage(Mat input, double width, double height, int interpolation, Mat output) {
-		if(input !=null) {
-			Imgproc.resize(input, output, new Size(width, height), 0.0, 0.0, interpolation);	
+		if (input != null) {
+			Imgproc.resize(input, output, new Size(width, height), 0.0, 0.0, interpolation);
+		
 		}
 	}
 
@@ -346,11 +363,7 @@ SmartDashboard.putString("Bananas?:", value); //"dont know yet");
 	 * @param output
 	 *            The image in which to store the output.
 	 */
-	private void mask(Mat input, Mat mask, Mat output) {
-		mask.convertTo(mask, CvType.CV_8UC1);
-		Core.bitwise_xor(output, output, output);
-		input.copyTo(output, mask);
-	}
+	
 
 	/**
 	 * Detects groups of pixels in an image.
@@ -412,12 +425,9 @@ SmartDashboard.putString("Bananas?:", value); //"dont know yet");
 			blobDet.read(tempFile.getPath());
 		} catch (IOException e) {
 			e.printStackTrace();
-		} 
+		}
 
 		blobDet.detect(input, blobList);
 	}
 
-	
-
-	
 }

@@ -39,6 +39,12 @@ public class UpdateSmartDashboard extends Command {
 		SmartDashboard.putNumber("Ultra", Robot.ultra.getRangeInches());
 		SmartDashboard.putNumber("Force", Robot.force.getVoltage());
 		
+		SmartDashboard.putString("Bananas?:", GRIP_SDS.value); // "dont know yet");
+		SmartDashboard.putNumber("X banana location", GRIP_SDS.xVideoValue);
+		SmartDashboard.putNumber("Y banana location", GRIP_SDS.yVideoValue);
+		SmartDashboard.putNumber(" banana size", GRIP_SDS.sizeVideoValue);
+		
+		
 		//SmartDashboard.putNumber("x SDS: ", Robot.pipeline.getxVideoValue());
 		//SmartDashboard.putNumber("y SDS: ", Robot.pipeline.getyVideoValue());
 		//SmartDashboard.putNumber("size SDS: ", Robot.pipeline.getsizeVideoValue());
