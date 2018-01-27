@@ -5,30 +5,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.HashMap;
-
 import edu.wpi.first.wpilibj.vision.VisionPipeline;
 
 import org.opencv.core.*;
-import org.opencv.core.Core.*;
 import org.opencv.features2d.FeatureDetector;
-import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.*;
-import org.opencv.objdetect.*;
-import org.usfirst.frc.team6644.robot.Robot;
-
-import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.NamedSendable;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import edu.wpi.cscore.CvSink;
-import edu.wpi.cscore.CvSource;
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.cscore.VideoSource;
 
 /**
  * class.
@@ -51,7 +34,9 @@ public class GRIP_SDS extends Subsystem implements VisionPipeline {
 	public static double yVideoValue = 0;
 	public static double sizeVideoValue = 0;
 	public static String value = new String(" ");
-	private CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
+	public static boolean foundABlob = false;
+	// private CvSource outputStream = CameraServer.getInstance().putVideo("Blur",
+	// 640, 480);
 	public static List<KeyPoint> ListOfPoints = new ArrayList<KeyPoint>();
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -72,13 +57,13 @@ public class GRIP_SDS extends Subsystem implements VisionPipeline {
 		// Step Resize_Image0:
 		// System.out.print(findBlobsOutput.row(10));
 		Mat resizeImageInput = source0;
-		double resizeImageWidth = 640.0;
-		double resizeImageHeight = 480.0;
+		double resizeImageWidth = 160.0;
+		double resizeImageHeight = 120.0;
 		int resizeImageInterpolation = Imgproc.INTER_CUBIC;
 		resizeImage(resizeImageInput, resizeImageWidth, resizeImageHeight, resizeImageInterpolation, resizeImageOutput);
 
 		// Step Blur0:
-		//Mat blur0Input = resizeImageOutput;
+		// Mat blur0Input = resizeImageOutput;
 		Mat blur0Input = resizeImageOutput;
 		BlurType blur0Type = BlurType.get("Median Filter");
 		double blur0Radius = 12;
@@ -122,63 +107,64 @@ public class GRIP_SDS extends Subsystem implements VisionPipeline {
 
 		int largest = 0;
 		int amount = 0;
-		//int xVideoValue = -1;
-		//int yVideoValue = -1;
-		//int sizeVideoValue = -1;
+		// int xVideoValue = -1;
+		// int yVideoValue = -1;
+		// int sizeVideoValue = -1;
 		if (!findBlobsOutput.toList().isEmpty()) {
 			ListOfPoints = findBlobsOutput.toList();
+			foundABlob = true;
 			value = "true";
-			for (int spaghetti = 0; spaghetti < ListOfPoints.size() - 1; spaghetti++) {
-					amount = ListOfPoints.size();
-				if (ListOfPoints.get(spaghetti + 1).size > ListOfPoints.get(spaghetti).size) {
-					largest = spaghetti + 1;
+			for (int index = 0; index < ListOfPoints.size() - 1; index++) {
+				amount = ListOfPoints.size();
+				if (ListOfPoints.get(index + 1).size > ListOfPoints.get(index).size) {
+					largest = index + 1;
 				} // end if
-				if (!(ListOfPoints.get(spaghetti + 1).size > ListOfPoints.get(spaghetti).size)) {
-					largest = spaghetti;
+				if (!(ListOfPoints.get(index + 1).size > ListOfPoints.get(index).size)) {
+					largest = index;
 				} // end else if
 
 			} // end for
 
 		} // end big if
 		else {
+			foundABlob = false;
 			value = "false";
-			xVideoValue= -1;
+			xVideoValue = -1;
 			yVideoValue = -1;
 			sizeVideoValue = -1;
 			amount = 0;
 		}
 		if (!findBlobsOutput.toList().isEmpty()) {
-			xVideoValue= (int) ListOfPoints.get(largest).pt.x;
+			xVideoValue = (int) ListOfPoints.get(largest).pt.x;
 			yVideoValue = (int) ListOfPoints.get(largest).pt.y;
 			sizeVideoValue = (int) ListOfPoints.get(largest).size;
 		}
 		SmartDashboard.putNumber("X distance", centerrobotXAxis());
 		SmartDashboard.putNumber("Y distance", centerrobotYAxis());
-		
 		SmartDashboard.putNumber("Number of Bananas", amount);
-	
+
 	}
 
-
-
 	public double centerrobotXAxis() {
-		double midxaxis = 150;
+		double midxaxis = 80;
 		if (xVideoValue <= midxaxis) {
 			return midxaxis - xVideoValue;
 		} else {
 			return xVideoValue - midxaxis;
 		}
-	}//returns distance on the x axis from the center
+	}// returns distance on the x axis from the center
 
 	public double centerrobotYAxis() {
-		double midyaxis = 164;
+		double midyaxis = 70;
 		if (yVideoValue <= midyaxis) {
 			return midyaxis - yVideoValue;
 		} else {
 			return yVideoValue - midyaxis;
 		}
-	}//returns distance on the y axis from the center
-
+	}// returns distance on the y axis from the center
+public boolean foundABlobinPic() {
+	return foundABlob;
+}
 	public double getxVideoValue() {
 		process(Vision.toBeProcessed);
 		return xVideoValue;
@@ -265,7 +251,7 @@ public class GRIP_SDS extends Subsystem implements VisionPipeline {
 	private void resizeImage(Mat input, double width, double height, int interpolation, Mat output) {
 		if (input != null) {
 			Imgproc.resize(input, output, new Size(width, height), 0.0, 0.0, interpolation);
-		
+
 		}
 	}
 
@@ -363,7 +349,6 @@ public class GRIP_SDS extends Subsystem implements VisionPipeline {
 	 * @param output
 	 *            The image in which to store the output.
 	 */
-	
 
 	/**
 	 * Detects groups of pixels in an image.

@@ -1,9 +1,7 @@
 package org.usfirst.frc.team6644.robot.commands;
 
 import edu.wpi.cscore.CvSink;
-import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
-import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -48,7 +46,12 @@ public class DisplayVision extends Command {
 			}
 		
 	}
-
+	public double xAxisDistance () {
+	return eyes.centerrobotXAxis();
+	}
+	public boolean hasFoundBlob() {
+		return eyes.foundABlobinPic();
+	}
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
 		return false;

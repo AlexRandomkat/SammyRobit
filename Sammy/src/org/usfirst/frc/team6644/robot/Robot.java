@@ -77,20 +77,12 @@ public class Robot extends IterativeRobot {
 		force = new ForceSensor();
 		ultra = new UltrasonicSensor();
 		i=0;
-//		Mat RonakHat = new Mat();
+
 		
 		displayvisionthing = new DisplayVision();
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
-		
-//		Mat Empty = new Mat();
-		//long Long1 = Vision.cvSink.grabFrame(Empty); == long Long1 = (long) Empty; 
-//		Mat Mat1 = new Mat(Long1);
-//		Mat Mat2 = new Mat();
-		
-//		Imgproc.resize(Mat1, Mat2, new Size(64, 64), 0.0, 0.0, Imgproc.INTER_CUBIC);
-			
 	}
 
 	/**
@@ -218,6 +210,7 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during test mode
 	 */
+	protected static String turning = new String(" ");
 	@Override
 	public void testPeriodic() {
 		/*
@@ -226,6 +219,24 @@ public class Robot extends IterativeRobot {
 		 * (InterruptedException e) { System.out.println(e); }
 		 */
 		// end test stuff
-		Scheduler.getInstance().run();
+			Scheduler.getInstance().run();
+		if(!displayvisionthing.hasFoundBlob()) {
+			turning = "0 0 0";
+		}
+		else if(displayvisionthing.xAxisDistance() > 85 && displayvisionthing.hasFoundBlob()) {
+			drivemotors.tankDrive(.1, -.1);
+			turning = "> > >";
+		}
+		else if(displayvisionthing.xAxisDistance() < 75 && displayvisionthing.hasFoundBlob()) {
+			drivemotors.tankDrive(-.1, .1);
+			turning = "< < <";
+		}
+		else if(displayvisionthing.xAxisDistance() < 85 && displayvisionthing.xAxisDistance() > 75 && displayvisionthing.hasFoundBlob()) {
+			drivemotors.tankDrive(0, 0);
+			turning = "> | <";
+		}
+		
+		SmartDashboard.putString("Turning to center: ", turning);
+	
 	}
 }
