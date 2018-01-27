@@ -1,18 +1,33 @@
 package org.usfirst.frc.team6644.robot.commands;
 
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import org.opencv.core.Mat;
+import org.usfirst.frc.team6644.robot.Robot;
 import org.usfirst.frc.team6644.robot.subsystems.*;
 
-
 public class DisplayVision extends Command {
-	Vision eyes = new Vision();
+	GRIP_SDS eyes = new GRIP_SDS();
+	public static UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+	public static CvSink cvSink = CameraServer.getInstance().getVideo();
+	private Mat tbp = new Mat();
+	
 
 	public DisplayVision() {
+		// tbp = to be processed
 		// Use requires() here to declare subsystem dependencies
+	//CameraServer.getInstance().addServer("bananagram").setSource(camera);
 		requires(eyes);
-		eyes.init();
+		execute();
+		
+		
+		
 	}
 
 	// Called just before this Command runs the first time
@@ -21,10 +36,17 @@ public class DisplayVision extends Command {
 	}
 
 	// Called repeatedly when this Command is scheduled to run
-	protected void execute() {
+	public void execute() {
 
 		// eyes.initDefaultCommand();
-
+			//Robot.i++;
+			cvSink.grabFrame(tbp);
+			eyes.process(tbp);
+			SmartDashboard.putNumber("i= ", Robot.i);
+			if(Robot.i >= 100) {
+				Robot.i = 0;
+			}
+		
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
