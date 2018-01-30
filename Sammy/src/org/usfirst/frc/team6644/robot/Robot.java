@@ -8,6 +8,7 @@ import org.usfirst.frc.team6644.robot.commands.AccelerometerTest;
 import org.usfirst.frc.team6644.robot.commands.DisplayVision;
 import org.usfirst.frc.team6644.robot.commands.DriveWithJoystick;
 import org.usfirst.frc.team6644.robot.commands.ExampleCommand;
+import org.usfirst.frc.team6644.robot.commands.TurnToYellow;
 import org.usfirst.frc.team6644.robot.commands.UpdateSmartDashboard;
 import org.usfirst.frc.team6644.robot.subsystems.DriveMotors;
 import org.usfirst.frc.team6644.robot.subsystems.ExampleSubsystem;
@@ -29,7 +30,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -41,9 +41,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-//	public static NetworkTable table;
+	// public static NetworkTable table;
 	public static OI oi;
-//	public static boolean Tabling;
+	// public static boolean Tabling;
 	// sensors
 	public static IRSensor ir;
 	public static UltrasonicSensor ultra;
@@ -51,10 +51,11 @@ public class Robot extends IterativeRobot {
 	public static ForceSensor force;
 	public static int i;
 	public static DisplayVision displayvisionthing;
-	//public static CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
+	public static TurnToYellow turny;
+	protected static String status= new String("0 0 0");
+	// public static CvSource outputStream =
+	// CameraServer.getInstance().putVideo("Blur", 640, 480);
 	public static Mat sworce = new Mat();
-
-	
 
 	// test
 	public static Joystick joystick = new Joystick(RobotPorts.JOYSTICK.get());
@@ -76,9 +77,8 @@ public class Robot extends IterativeRobot {
 		ir = new IRSensor();
 		force = new ForceSensor();
 		ultra = new UltrasonicSensor();
-		i=0;
-
-		
+		i = 0;
+		turny = new TurnToYellow();
 		displayvisionthing = new DisplayVision();
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
@@ -99,7 +99,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		
+
 	}
 
 	/**
@@ -135,7 +135,9 @@ public class Robot extends IterativeRobot {
 		// Scheduler.getInstance().add(autonomousCommands);
 
 		// Scheduler.getInstance().add(new AutonomousMoveStraight(3.75, 0.6));
-		Scheduler.getInstance().add(new AvoidAutonomous(.6));
+		// Scheduler.getInstance().add(new AvoidAutonomous(.6));
+		UpdateSmartDashboard outputs = new UpdateSmartDashboard();
+		Scheduler.getInstance().add(outputs);
 	}
 
 	/**
@@ -143,7 +145,17 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		
+		displayvisionthing.execute();
+		while(displayvisionthing.hasFoundBlob()) {
 		Scheduler.getInstance().run();
+		displayvisionthing.execute();
+		if(displayvisionthing.hasFoundBlob()) {
+			turny.execute();
+			status = turny.getTurning();
+		}//end if
+		SmartDashboard.putString("Turning", status);
+		}//end while
 	}
 
 	@Override
@@ -169,13 +181,15 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during operator control
 	 */
-	
+
 	@Override
 	public void teleopPeriodic() {
 		i++;
+
+		// displayvisionthing.execute();
+
 		Scheduler.getInstance().run();
-		displayvisionthing.execute();
-	
+
 	}
 
 	@Override
@@ -184,33 +198,34 @@ public class Robot extends IterativeRobot {
 		 * Scheduler.getInstance().removeAll(); Scheduler.getInstance().add(new
 		 * DriveWithController());
 		 */
-	//	Robot.Table();
+		// Robot.Table();
 	}
-	//static int counter = 0;
-	//static double[] defaultValue = new double[0];
-	//public static void Table() {
-	//	 NetworkTable table = NetworkTable.getTable("GRIP/myBlobsReport");
-//		int counter=0;
-//		double[] defaultValue = new double[0];
-//		//while (Tabling) {
-//		for(int tables = 0; tables < 120; tables++) {
-//			double[] areas = table.getNumberArray("size", defaultValue);
-//			double[] Xs = table.getNumberArray("centerX", defaultValue);
-//			double[] Ys = table.getNumberArray("centerY", defaultValue);
-//			for (double area : areas) {
-//				System.out.println("areas: "+ area+"\t xOBJECT: "+Xs[counter] + "\t yOBJECT: "+Ys[counter] );
-//				counter++;
-//			}
-//			System.out.println();
-//			Timer.delay(1);
-//		}
-		
-//	}
+	// static int counter = 0;
+	// static double[] defaultValue = new double[0];
+	// public static void Table() {
+	// NetworkTable table = NetworkTable.getTable("GRIP/myBlobsReport");
+	// int counter=0;
+	// double[] defaultValue = new double[0];
+	// //while (Tabling) {
+	// for(int tables = 0; tables < 120; tables++) {
+	// double[] areas = table.getNumberArray("size", defaultValue);
+	// double[] Xs = table.getNumberArray("centerX", defaultValue);
+	// double[] Ys = table.getNumberArray("centerY", defaultValue);
+	// for (double area : areas) {
+	// System.out.println("areas: "+ area+"\t xOBJECT: "+Xs[counter] + "\t yOBJECT:
+	// "+Ys[counter] );
+	// counter++;
+	// }
+	// System.out.println();
+	// Timer.delay(1);
+	// }
+
+	// }
 
 	/**
 	 * This function is called periodically during test mode
 	 */
-	protected static String turning = new String(" ");
+
 	@Override
 	public void testPeriodic() {
 		/*
@@ -219,24 +234,8 @@ public class Robot extends IterativeRobot {
 		 * (InterruptedException e) { System.out.println(e); }
 		 */
 		// end test stuff
-			Scheduler.getInstance().run();
-		if(!displayvisionthing.hasFoundBlob()) {
-			turning = "0 0 0";
-		}
-		else if(displayvisionthing.xAxisDistance() > 85 && displayvisionthing.hasFoundBlob()) {
-			drivemotors.tankDrive(.1, -.1);
-			turning = "> > >";
-		}
-		else if(displayvisionthing.xAxisDistance() < 75 && displayvisionthing.hasFoundBlob()) {
-			drivemotors.tankDrive(-.1, .1);
-			turning = "< < <";
-		}
-		else if(displayvisionthing.xAxisDistance() < 85 && displayvisionthing.xAxisDistance() > 75 && displayvisionthing.hasFoundBlob()) {
-			drivemotors.tankDrive(0, 0);
-			turning = "> | <";
-		}
-		
-		SmartDashboard.putString("Turning to center: ", turning);
-	
-	}
+
+		Scheduler.getInstance().run();
+
+	}// end test
 }

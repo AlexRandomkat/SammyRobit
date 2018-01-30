@@ -166,7 +166,7 @@ public boolean foundABlobinPic() {
 	return foundABlob;
 }
 	public double getxVideoValue() {
-		process(Vision.toBeProcessed);
+		//process(Vision.toBeProcessed);
 		return xVideoValue;
 	}
 

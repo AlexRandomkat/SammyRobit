@@ -47,7 +47,7 @@ public class DisplayVision extends Command {
 		
 	}
 	public double xAxisDistance () {
-	return eyes.centerrobotXAxis();
+	return eyes.getxVideoValue();
 	}
 	public boolean hasFoundBlob() {
 		return eyes.foundABlobinPic();
