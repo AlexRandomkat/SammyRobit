@@ -6,9 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- *
- */
+
 public class TurnToYellow extends Command {
 	public String turning = new String("0 0 0");
 	public boolean Turn = true;
@@ -16,7 +14,6 @@ public class TurnToYellow extends Command {
 
 	public TurnToYellow() {
 
-		// execute();
 	}
 
 	// Called just before this Command runs the first time
@@ -31,22 +28,22 @@ public class TurnToYellow extends Command {
 			Robot.drivemotors.tankDrive(0, 0);
 			Turn = true;
 		} else if (Robot.displayvisionthing.hasFoundBlob()) {
-			if (((Robot.displayvisionthing.xAxisDistance() < 90) && (Robot.displayvisionthing.xAxisDistance() > 70) && (Robot.ir.distanceValue() > 1))) {
+			if (((Robot.displayvisionthing.xAxisDistance() < 90) && (Robot.displayvisionthing.xAxisDistance() > 70) && (Robot.frontIR.distanceValue() > 1))) {
 				Robot.drivemotors.tankDrive(speed, speed);
 				turning = "> | <";
 				Turn = false;
 			}
-			if (Robot.displayvisionthing.xAxisDistance() >= 90  && (Robot.ir.distanceValue() > 1)) {
+			if (Robot.displayvisionthing.xAxisDistance() >= 90  && (Robot.frontIR.distanceValue() > 1)) {
 				Robot.drivemotors.tankDrive(speed, -speed);
 				turning = "> > >";
 				Turn = true;
 			}
-			if (Robot.displayvisionthing.xAxisDistance() <= 70  && (Robot.ir.distanceValue() > 1)) {
+			if (Robot.displayvisionthing.xAxisDistance() <= 70  && (Robot.frontIR.distanceValue() > 1)) {
 				Robot.drivemotors.tankDrive(-speed, speed);
 				turning = "< < <";
 				Turn = true;
 			}
-			if (!Robot.displayvisionthing.hasFoundBlob()  && (Robot.ir.distanceValue() > 1)) {
+			if (!Robot.displayvisionthing.hasFoundBlob()  && (Robot.frontIR.distanceValue() > 1)) {
 				turning = "0 0 0";
 				Robot.drivemotors.tankDrive(0, 0);
 				Turn = false;

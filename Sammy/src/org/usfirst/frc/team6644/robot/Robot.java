@@ -48,8 +48,9 @@ public class Robot extends IterativeRobot {
 
 	// public static boolean Tabling;
 	// sensors
-	public static IRSensor ir;
-	public static UltrasonicSensor ultra;
+	public static IRSensor frontIR;
+	public static IRSensor leftIR;
+	public static IRSensor rightIR;
 	public static DriveMotors drivemotors;
 	public static ForceSensor force;
 	public static int i;
@@ -80,7 +81,7 @@ public class Robot extends IterativeRobot {
 		leftIR = new IRSensor(RobotPorts.LEFT_IR.get());
 		rightIR = new IRSensor(RobotPorts.RIGHT_IR.get());
 		force = new ForceSensor();
-		ultra = new UltrasonicSensor();
+		
 		i = 0;
 		turny = new TurnToYellow();
 		displayvisionthing = new DisplayVision();

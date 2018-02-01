@@ -33,7 +33,7 @@ public class UpdateSmartDashboard extends Command {
 			//Robot.ard.setLow();
 			//Robot.irArray.setHigh();
 		}
-		Robot.ard.setHigh();
+		//Robot.ard.setHigh();
 		
 		if (Robot.drivemotors.isRunning()) {
 			// updates SmartDashboard with the program's motor outputs
@@ -49,7 +49,7 @@ public class UpdateSmartDashboard extends Command {
 		SmartDashboard.putBoolean("Object Close Front", Robot.frontIR.isClose());
 		SmartDashboard.putBoolean("Object Close Left", Robot.leftIR.isClose());
 		SmartDashboard.putBoolean("Object Close Right", Robot.rightIR.isClose());
-		SmartDashboard.putNumber("Ultra", Robot.ultra.getRangeInches());
+		//SmartDashboard.putNumber("Ultra", Robot.ultra.getRangeInches());
 		SmartDashboard.putNumber("Force", Robot.force.getVoltage());
 		SmartDashboard.putString("Bananas?:", GRIP_SDS.value); // "dont know yet");
 		SmartDashboard.putNumber("X banana location", GRIP_SDS.xVideoValue);
