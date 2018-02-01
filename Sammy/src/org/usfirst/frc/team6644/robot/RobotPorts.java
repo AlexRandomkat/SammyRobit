@@ -9,7 +9,7 @@ public enum RobotPorts {
 	LEFT_DRIVE_PWM(0), RIGHT_DRIVE_PWM(1), CLIMB_DRIVE_PWM(2),
 
 	// Analog Ports
-	FRONT_IR(0), 
+	FRONT_IR(0), LEFT_IR(2), RIGHT_IR(3),
 	
 	//Digital Ports
 	FRONT_ULTRASONIC_PING(0), FRONT_ULTRASONIC_ECHO(1);

@@ -10,10 +10,12 @@ import org.usfirst.frc.team6644.robot.commands.DriveWithJoystick;
 import org.usfirst.frc.team6644.robot.commands.ExampleCommand;
 import org.usfirst.frc.team6644.robot.commands.TurnToYellow;
 import org.usfirst.frc.team6644.robot.commands.UpdateSmartDashboard;
+import org.usfirst.frc.team6644.robot.subsystems.Arduino;
 import org.usfirst.frc.team6644.robot.subsystems.DriveMotors;
 import org.usfirst.frc.team6644.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team6644.robot.subsystems.ForceSensor;
 import org.usfirst.frc.team6644.robot.subsystems.GRIP_SDS;
+import org.usfirst.frc.team6644.robot.subsystems.IRArray;
 import org.usfirst.frc.team6644.robot.subsystems.IRSensor;
 import org.usfirst.frc.team6644.robot.subsystems.UltrasonicSensor;
 import org.usfirst.frc.team6644.robot.subsystems.Vision;
@@ -43,6 +45,7 @@ public class Robot extends IterativeRobot {
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	// public static NetworkTable table;
 	public static OI oi;
+
 	// public static boolean Tabling;
 	// sensors
 	public static IRSensor ir;
@@ -56,7 +59,6 @@ public class Robot extends IterativeRobot {
 	// public static CvSource outputStream =
 	// CameraServer.getInstance().putVideo("Blur", 640, 480);
 	public static Mat sworce = new Mat();
-
 	// test
 	public static Joystick joystick = new Joystick(RobotPorts.JOYSTICK.get());
 	// end test
@@ -74,12 +76,15 @@ public class Robot extends IterativeRobot {
 		drivemotors = new DriveMotors();
 		drivemotors.calibrateGyro();
 		oi = new OI();
-		ir = new IRSensor();
+		frontIR = new IRSensor(RobotPorts.FRONT_IR.get());
+		leftIR = new IRSensor(RobotPorts.LEFT_IR.get());
+		rightIR = new IRSensor(RobotPorts.RIGHT_IR.get());
 		force = new ForceSensor();
 		ultra = new UltrasonicSensor();
 		i = 0;
 		turny = new TurnToYellow();
 		displayvisionthing = new DisplayVision();
+
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
