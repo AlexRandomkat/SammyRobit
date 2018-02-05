@@ -1,32 +1,24 @@
 package org.usfirst.frc.team6644.robot;
 
 import org.opencv.core.Mat;
-import org.opencv.core.Size;
-import org.opencv.imgproc.Imgproc;
-import org.usfirst.frc.team6644.robot.commandGroups.AvoidAutonomous;
+
+//commands
 import org.usfirst.frc.team6644.robot.commands.AccelerometerTest;
 import org.usfirst.frc.team6644.robot.commands.DisplayVision;
 import org.usfirst.frc.team6644.robot.commands.DriveWithJoystick;
-import org.usfirst.frc.team6644.robot.commands.ExampleCommand;
 import org.usfirst.frc.team6644.robot.commands.TurnToYellow;
 import org.usfirst.frc.team6644.robot.commands.UpdateSmartDashboard;
-import org.usfirst.frc.team6644.robot.subsystems.Arduino;
+
+//subsystems
 import org.usfirst.frc.team6644.robot.subsystems.DriveMotors;
-import org.usfirst.frc.team6644.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team6644.robot.subsystems.ForceSensor;
-import org.usfirst.frc.team6644.robot.subsystems.GRIP_SDS;
-import org.usfirst.frc.team6644.robot.subsystems.IRArray;
 import org.usfirst.frc.team6644.robot.subsystems.IRSensor;
-import org.usfirst.frc.team6644.robot.subsystems.UltrasonicSensor;
-import org.usfirst.frc.team6644.robot.subsystems.Vision;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.cscore.CvSink;
-import edu.wpi.cscore.CvSource;
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.CameraServer;
+import org.usfirst.frc.team6644.robot.subsystems.PDM;
+import org.usfirst.frc.team6644.robot.subsystems.PCM;
+
+//other stuff
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -42,21 +34,25 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 
-	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	// public static NetworkTable table;
 	public static OI oi;
 
 	// public static boolean Tabling;
+
+	// essential subsystems
+	public static DriveMotors drivemotors;
+	public static PDM pdm;
+	public static PCM pcm;
+
 	// sensors
 	public static IRSensor frontIR;
 	public static IRSensor leftIR;
 	public static IRSensor rightIR;
-	public static DriveMotors drivemotors;
 	public static ForceSensor force;
 	public static int i;
 	public static DisplayVision displayvisionthing;
 	public static TurnToYellow turny;
-	protected static String status= new String("0 0 0");
+	protected static String status = new String("0 0 0");
 	// public static CvSource outputStream =
 	// CameraServer.getInstance().putVideo("Blur", 640, 480);
 	public static Mat sworce = new Mat();
@@ -75,18 +71,24 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		// ROBOT MUST BE STILL WHEN TURNED ON
 		drivemotors = new DriveMotors();
+		pdm = new PDM();
+		pcm = new PCM();
+		pdm.clearStickyFaults();
+		pcm.clearAllPCMStickyFaults();
+		pcm.startCompressor();
+		pcm.printCompressorStats();
+		pdm.printPDMStats();
 		drivemotors.calibrateGyro();
 		oi = new OI();
 		frontIR = new IRSensor(RobotPorts.FRONT_IR.get());
 		leftIR = new IRSensor(RobotPorts.LEFT_IR.get());
 		rightIR = new IRSensor(RobotPorts.RIGHT_IR.get());
 		force = new ForceSensor();
-		
+
 		i = 0;
 		turny = new TurnToYellow();
 		displayvisionthing = new DisplayVision();
 
-		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 	}
@@ -151,17 +153,17 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		
+
 		displayvisionthing.execute();
-		while(displayvisionthing.hasFoundBlob()) {
-		Scheduler.getInstance().run();
-		displayvisionthing.execute();
-		if(displayvisionthing.hasFoundBlob()) {
-			turny.execute();
-			status = turny.getTurning();
-		}//end if
-		SmartDashboard.putString("Turning", status);
-		}//end while
+		while (displayvisionthing.hasFoundBlob()) {
+			Scheduler.getInstance().run();
+			displayvisionthing.execute();
+			if (displayvisionthing.hasFoundBlob()) {
+				turny.execute();
+				status = turny.getTurning();
+			} // end if
+			SmartDashboard.putString("Turning", status);
+		} // end while
 	}
 
 	@Override
