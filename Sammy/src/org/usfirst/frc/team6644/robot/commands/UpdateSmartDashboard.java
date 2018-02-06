@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team6644.robot.Robot;
 import org.usfirst.frc.team6644.robot.subsystems.GRIP_SDS;
-import org.usfirst.frc.team6644.robot.subsystems.Vision;
 
 /**
  *

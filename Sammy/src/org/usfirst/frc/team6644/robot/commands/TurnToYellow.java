@@ -3,9 +3,6 @@ package org.usfirst.frc.team6644.robot.commands;
 import org.usfirst.frc.team6644.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 
 public class TurnToYellow extends Command {
 	public String turning = new String("0 0 0");

@@ -24,6 +24,8 @@ public class AutonomousTurn extends PIDCommandOptimizable {
 		Robot.drivemotors.startAutoMode();
 		setSetpoint(degree);
 		getPIDController().setPercentTolerance(0.5);// sets to 0.5% tolerance
+		
+		//TODO: Use a LinearDigitalFilter
 		getPIDController().setToleranceBuffer(10);// takes average of 10 measurements when determining if error is within tolerance
 		
 		//PIDController automatically started when command is initialized, according to class docs
@@ -63,7 +65,7 @@ public class AutonomousTurn extends PIDCommandOptimizable {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		SmartDashboard.putNumber("Error", getPIDController().getAvgError());
+		SmartDashboard.putNumber("Error", getPIDController().getError());//TODO: LinearDigitalFilter
 		SmartDashboard.putNumber("Output", output);
 		
 		//limit outputs to between -1 and 1, inclusive.

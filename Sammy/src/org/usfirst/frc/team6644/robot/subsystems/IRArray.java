@@ -1,7 +1,6 @@
 package org.usfirst.frc.team6644.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class IRArray extends Subsystem {

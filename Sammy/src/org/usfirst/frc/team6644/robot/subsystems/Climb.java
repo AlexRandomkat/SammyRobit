@@ -34,7 +34,7 @@ public class Climb extends Subsystem {
 		} else {
 			ClimbDrive.set(value);
 		}
-		ClimbDrive.Feed();
+		ClimbDrive.feed();
 	}
 
 	public void stop() {

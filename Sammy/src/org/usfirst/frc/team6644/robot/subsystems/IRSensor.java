@@ -1,7 +1,5 @@
 package org.usfirst.frc.team6644.robot.subsystems;
 
-import org.usfirst.frc.team6644.robot.RobotPorts;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.AnalogInput;
 

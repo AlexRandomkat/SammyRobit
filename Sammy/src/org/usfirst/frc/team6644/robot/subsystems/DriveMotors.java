@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
@@ -17,7 +17,7 @@ import org.usfirst.frc.team6644.robot.RobotPorts;
 public class DriveMotors extends Subsystem {
 	private static Spark leftDrivePWM;
 	private static Spark rightDrivePWM;
-	private static RobotDrive drive;
+	private static DifferentialDrive drive;
 	private double motorSafteyExpireTime = 0.3;// sets the PWM to expire in 0.3 seconds after the last call of .Feed()
 
 	/*
@@ -54,7 +54,7 @@ public class DriveMotors extends Subsystem {
 		leftDrivePWM = new Spark(RobotPorts.LEFT_DRIVE_PWM.get());
 		rightDrivePWM = new Spark(RobotPorts.RIGHT_DRIVE_PWM.get());
 
-		drive = new RobotDrive(leftDrivePWM, rightDrivePWM);
+		drive = new DifferentialDrive(leftDrivePWM, rightDrivePWM);
 
 		gyro = new ADXRS450_Gyro();
 	}
@@ -78,7 +78,7 @@ public class DriveMotors extends Subsystem {
 	}
 
 	public void arcadeDrive(GenericHID stick) {
-		drive.arcadeDrive(stick);
+		drive.arcadeDrive(stick.getX(),stick.getY());
 	}
 
 	public void tankDrive(double left, double right) {

@@ -37,7 +37,7 @@ public class Robot extends IterativeRobot {
 	// public static NetworkTable table;
 	public static OI oi;
 
-	// public static boolean Tabling;
+	// public static boolean Tabling:
 
 	// essential subsystems
 	public static DriveMotors drivemotors;
@@ -56,10 +56,7 @@ public class Robot extends IterativeRobot {
 	// public static CvSource outputStream =
 	// CameraServer.getInstance().putVideo("Blur", 640, 480);
 	public static Mat sworce = new Mat();
-	// test
-	public static Joystick joystick = new Joystick(RobotPorts.JOYSTICK.get());
-	// end test
-
+	
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
