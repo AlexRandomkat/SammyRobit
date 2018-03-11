@@ -48,7 +48,6 @@ public class GRIP_SDS extends Subsystem implements VisionPipeline {
 	 */
 	@Override
 	public void initDefaultCommand() {
-		// TODO Auto-generated method stub
 
 	}
 
